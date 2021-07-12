@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:build": "tsc -w",
     "start:run": "nodemon dist/index.js",
-    "start": "concurrently npm:start:*"
+    "start": "concurrently npm:start:*",
+		"prettier": "npx prettier --config ./prettier.config.js **/*.* --check",
+		"prettier:fix": "npx prettier --config ./prettier.config.js **/*.* --write"
   },
   "repository": {
     "type": "git",
@@ -26,5 +28,9 @@
   "dependencies": {
     "concurrently": "^6.2.0",
     "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "altheajs-prettier-config": "^1.1.4",
+    "prettier": "2.3.2"
   }
 }

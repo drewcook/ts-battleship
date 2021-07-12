@@ -1,0 +1,17 @@
+# Ignore artifacts:
+node_modules
+dist
+
+## file extensions
+*.*
+!*.css
+!*.scss
+!*.js
+!*.json
+!*.jsx
+!*.less
+!*.md
+!*.mdx
+!*.ts
+!*.tsx
+!*.yml
