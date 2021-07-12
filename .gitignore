@@ -1,0 +1,10 @@
+# Build Artifacts
+node_modules/
+dist/
+
+# Caches
+.cache/*
+.parcel-cache/
+
+## OS Files
+.DS_store

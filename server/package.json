@@ -1,0 +1,30 @@
+{
+  "name": "ts-battleship-server",
+  "version": "1.0.0",
+  "description": "The backend for ts-battleship",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:build": "tsc -w",
+    "start:run": "nodemon dist/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drewcook/ts-battleship.git"
+  },
+  "keywords": [
+    "typescript",
+    "battleship"
+  ],
+  "author": "Drew Cook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drewcook/ts-battleship/issues"
+  },
+  "homepage": "https://github.com/drewcook/ts-battleship#readme",
+  "dependencies": {
+    "concurrently": "^6.2.0",
+    "nodemon": "^2.0.12"
+  }
+}
