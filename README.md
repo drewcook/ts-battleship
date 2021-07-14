@@ -1,6 +1,6 @@
 # Battleship
 
-This is the classic game of battleship, writtin in TypeScript. It follows object-oriented design patterns.
+This is the classic game of battleship, writtin in TypeScript. It follows object-oriented design patterns. It was inspired by [this design](https://en.wikipedia.org/wiki/SOLID).
 
 ## How To Run
 
