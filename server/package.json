@@ -8,8 +8,8 @@
     "start:build": "tsc -w",
     "start:run": "nodemon dist/index.js",
     "start": "concurrently npm:start:*",
-		"prettier": "npx prettier --config ./prettier.config.js **/*.* --check",
-		"prettier:fix": "npx prettier --config ./prettier.config.js **/*.* --write"
+    "prettier": "npx prettier --config ./prettier.config.js src/**/*.* --check",
+    "prettier:fix": "npx prettier --config ./prettier.config.js src/**/*.* --write"
   },
   "repository": {
     "type": "git",
