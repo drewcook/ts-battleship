@@ -2848,10 +2848,10 @@
   "resolved" "https://registry.npmjs.org/batch/-/batch-0.6.1.tgz"
   "version" "0.6.1"
 
-"battleship-types@^1.0.0":
-  "integrity" "sha512-eLBk7B1X0nCBSdNSm5kFU1PWuNL1Y2bHoFX5A4qfzGUHrwT7U8DY4u+mEZOZbeQk3bUIvw6zP+TNotb72N3oBg=="
-  "resolved" "https://registry.npmjs.org/battleship-types/-/battleship-types-1.0.0.tgz"
-  "version" "1.0.0"
+"battleship-types@^1.0.2":
+  "integrity" "sha512-TX+1RtCSy1V87uGG5nWRDAie05wbXnJe4kLbFBFjiY3grwCIlQLLS8K23z+pNRTgm95piqFn+cPpRm+qWHeUnQ=="
+  "resolved" "https://registry.npmjs.org/battleship-types/-/battleship-types-1.0.2.tgz"
+  "version" "1.0.2"
   dependencies:
     "typescript" "^4.5.2"
 

@@ -42,6 +42,6 @@
     ]
   },
   "devDependencies": {
-    "battleship-types": "^1.0.0"
+    "battleship-types": "^1.0.2"
   }
 }
