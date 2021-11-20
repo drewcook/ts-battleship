@@ -26,18 +26,12 @@ export interface IBoard {
 export interface IPoint {
 	x: number
 	y: number
-	status: EPointStatus
-	updateStatus(status: EPointStatus): void
+	status: PointStatus
+	updateStatus(status: PointStatus): void
 }
 
+// Union (enum) for point statuses
 export type PointStatus = 'Hit' | 'Miss' | 'Ship' | 'Empty'
-
-export enum EPointStatus {
-	Hit = 'Hit',
-	Miss = 'Miss',
-	Ship = 'Ship',
-	Empty = 'Empty',
-}
 
 /**
  * Players
@@ -55,18 +49,12 @@ export interface IPlayer {
 /**
  * Ships
  */
+
+// Union (enum) for ship types
 export type ShipType = 'Destroyer' | 'Submarine' | 'Cruiser' | 'Battleship' | 'Carrier'
 
-export enum EShipType {
-	Destroyer,
-	Submarine,
-	Cruiser,
-	Battleship,
-	Carrier,
-}
-
 export interface IShip {
-	type: EShipType
+	type: ShipType
 	name: string
 	spacesOccupied: IPoint[]
 	size: number
