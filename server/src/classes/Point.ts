@@ -1,4 +1,4 @@
-import { EPointStatus, IPoint } from '@types'
+import { EPointStatus, IPoint } from 'battleship-types'
 
 class Point implements IPoint {
 	public x: number

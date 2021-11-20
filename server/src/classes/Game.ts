@@ -1,4 +1,4 @@
-import { IBoard, IGame } from '@types'
+import { IBoard, IGame } from "battleship-types"
 import Board from './Board'
 import Player from './Player'
 

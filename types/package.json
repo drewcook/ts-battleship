@@ -1,0 +1,18 @@
+{
+  "name": "battleship-types",
+  "version": "1.0.0",
+  "description": "TypeScript type definitions for the game of Battleship.",
+  "main": "index.js",
+  "types": "index.d.ts",
+	"homepage": "https://github.com/drewcook/ts-battleship",
+  "keywords": [
+    "typescript",
+    "types",
+    "battleship"
+  ],
+  "author": "Drew Cook",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.5.2"
+  }
+}

@@ -1,7 +1,7 @@
-import { IPoint } from '@types'
+import { IBoard, IPoint } from 'battleship-types'
 import Point from './Point'
 
-class Board {
+class Board implements IBoard {
 	public ocean: IPoint[][] = []
 
 	constructor() {

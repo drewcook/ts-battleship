@@ -1,4 +1,4 @@
-import { EPointStatus, EShipType, IPoint, IShip } from '@types'
+import { EPointStatus, EShipType, IPoint, IShip } from 'battleship-types'
 
 export enum ShipType {
 	Destroyer = 'Destroyer',

@@ -1,4 +1,8 @@
-export type Hello = 'Hello'
+// Type definitions for battleship-types 1.0
+// Project: https://github.com/drewcook/ts-battleship
+// Definitions by: Drew Cook <https://github.com/drewcook>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+/// <reference types="typescript" />
 
 /**
  * Game
@@ -13,7 +17,6 @@ export interface IGame {
  */
 export interface IBoard {
 	ocean: IPoint[][]
-	_createBoard(gridSize: number): IPoint[][]
 	getPoint(x: number, y: number): IPoint
 }
 

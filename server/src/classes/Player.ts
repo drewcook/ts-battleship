@@ -1,4 +1,4 @@
-import { EPointStatus, EShipType, IBoard, IPlayer, IPoint, IShip } from '@types'
+import { EPointStatus, EShipType, IBoard, IPlayer, IPoint, IShip } from 'battleship-types'
 import Ship from './Ship'
 
 class Player implements IPlayer {
