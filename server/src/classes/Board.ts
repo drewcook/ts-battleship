@@ -1,16 +1,17 @@
+import { IPoint } from '@types'
 import Point from './Point'
 
 class Board {
-	public ocean: Point[][] = []
+	public ocean: IPoint[][] = []
 
 	constructor() {
 		this.ocean = this._createBoard(10)
 	}
 
-	private _createBoard(gridSize: number = 10): Point[][] {
-		const grid: Point[][] = []
+	private _createBoard(gridSize: number = 10): IPoint[][] {
+		const grid: IPoint[][] = []
 		for (let row = 0; row < gridSize; row++) {
-			const rowPoints: Point[] = []
+			const rowPoints: IPoint[] = []
 			for (let col = 0; col < gridSize; col++) {
 				rowPoints.push(new Point(row, col))
 			}

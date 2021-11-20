@@ -1,20 +1,17 @@
+import { EPointStatus, IPoint } from '@types'
 
-export enum PointStatus {
-	Hit, Miss, Ship, Empty
-}
-
-class Point {
+class Point implements IPoint {
 	public x: number
 	public y: number
-	public status: PointStatus
+	public status: EPointStatus
 
 	constructor(x: number, y: number) {
 		this.x = x
 		this.y = y
-		this.status = PointStatus.Empty
+		this.status = EPointStatus.Empty
 	}
 
-	public updateStatus(status: PointStatus): void {
+	public updateStatus(status: EPointStatus): void {
 		this.status = status
 	}
 }

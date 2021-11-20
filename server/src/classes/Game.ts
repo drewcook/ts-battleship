@@ -1,8 +1,9 @@
-import Board from './Board';
-import Player from './Player';
+import { IBoard, IGame } from '@types'
+import Board from './Board'
+import Player from './Player'
 
-class Game {
-	public board: Board
+class Game implements IGame {
+	public board: IBoard
 
 	constructor() {
 		this.board = new Board()
@@ -11,8 +12,8 @@ class Game {
 	public play(): void {
 		console.log("Let's play battleship.")
 
-		const p1 = new Player("Drew", this.board)
-		const p2 = new Player("Maira", this.board)
+		const p1 = new Player('Drew', this.board)
+		const p2 = new Player('Maira', this.board)
 		p1.placeShips()
 		p2.placeShips()
 
