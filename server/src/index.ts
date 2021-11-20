@@ -1,6 +1,6 @@
+import cors from '@koa/cors'
 import Koa from 'koa'
 import BodyParser from 'koa-bodyparser'
-import cors from 'koa-cors'
 import Logger from 'koa-logger'
 import mount from 'koa-mount'
 import serve from 'koa-static'
