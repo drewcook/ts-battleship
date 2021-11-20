@@ -1,6 +1,7 @@
-import { EPointStatus, EShipType, IPoint, IShip } from 'battleship-types'
+import { IPoint, IShip, ShipType } from 'battleship-types'
+import { EPointStatus } from './Point'
 
-export enum ShipType {
+export enum EShipType {
 	Destroyer = 'Destroyer',
 	Submarine = 'Submarine',
 	Cruiser = 'Cruiser',
@@ -9,12 +10,12 @@ export enum ShipType {
 }
 
 class Ship implements IShip {
-	public type: EShipType
+	public type: ShipType
 	public name: string
 	public spacesOccupied: IPoint[] = []
 	public size: number
 
-	constructor(type: EShipType) {
+	constructor(type: ShipType) {
 		this.type = type
 
 		switch (type) {

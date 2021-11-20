@@ -1,9 +1,16 @@
-import { EPointStatus, IPoint } from 'battleship-types'
+import { IPoint, PointStatus } from 'battleship-types'
+
+export enum EPointStatus {
+	Hit = "Hit",
+	Miss = "Miss",
+	Ship = "Ship",
+	Empty = "Empty"
+}
 
 class Point implements IPoint {
 	public x: number
 	public y: number
-	public status: EPointStatus
+	public status: PointStatus
 
 	constructor(x: number, y: number) {
 		this.x = x
@@ -11,7 +18,7 @@ class Point implements IPoint {
 		this.status = EPointStatus.Empty
 	}
 
-	public updateStatus(status: EPointStatus): void {
+	public updateStatus(status: PointStatus): void {
 		this.status = status
 	}
 }
