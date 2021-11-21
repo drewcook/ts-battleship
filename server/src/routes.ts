@@ -1,4 +1,4 @@
-import { IGame } from '@types'
+import { IGame } from 'battleship-types'
 import HttpStatus from 'http-status'
 import Router from 'koa-router'
 import Game from './classes/Game'

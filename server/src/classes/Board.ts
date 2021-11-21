@@ -1,4 +1,4 @@
-import { IBoard, IPoint, IShip, Location } from '@types'
+import { IBoard, IPoint, IShip, Location } from 'battleship-types'
 import Point, { EPointStatus } from './Point'
 
 class Board implements IBoard {

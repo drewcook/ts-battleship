@@ -1,4 +1,4 @@
-import { IPoint, Location, PointStatus } from '@types'
+import { IPoint, Location, PointStatus } from 'battleship-types'
 
 export enum EPointStatus {
 	Empty = "Empty",

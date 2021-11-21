@@ -1,4 +1,4 @@
-import { IPoint, IShip, ShipOrientation, ShipType } from '@types'
+import { IPoint, IShip, ShipOrientation, ShipType } from 'battleship-types'
 import { EPointStatus } from './Point'
 
 export enum EShipType {
