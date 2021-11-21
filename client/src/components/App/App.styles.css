@@ -1,3 +1,12 @@
+/* Error Message */
+.error-msg {
+	color: #d70303;
+	font-size: 0.9rem;
+	font-weight: bold;
+	font-style: italic;
+}
+
+/* App */
 .app {
   text-align: center;
 }

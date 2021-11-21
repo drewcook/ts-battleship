@@ -6,39 +6,22 @@ import Board from '../Board/Board.component'
 import ShipsToPlace, { ShipData } from '../Ship/ShipsToPlace'
 import './App.styles.css'
 
+const initialShipsToPlace: ShipData[] = [
+	{ size: 2, name: 'Destroyer', orientation: 'horizontal' },
+	{ size: 3, name: 'Submarine', orientation: 'horizontal' },
+	{ size: 3, name: 'Cruiser', orientation: 'horizontal' },
+	{ size: 4, name: 'Battleship', orientation: 'horizontal' },
+	{ size: 5, name: 'Carrier', orientation: 'horizontal' },
+];
+
 const App = () => {
 	const [ctaText, setCtaText] = useState('Let\'s start playing!')
 	const [gameStarted, setGameStarted] = useState(false)
 	const [shipsPlaced, setShipsPlaced] = useState(false)
 	const [board, setBoard] = useState<IPoint[][] | null>(null)
 	const [activeShipBeingPlaced, setActiveShipBeingPlaced] = useState<ShipData | null>(null)
-	const [shipsToPlace, setShipsToPlace] = useState<ShipData[]>([
-		{
-			name: 'Destroyer',
-			size: 2,
-			orientation: 'horizontal',
-		},
-		{
-			name: 'Submarine',
-			size: 3,
-			orientation: 'horizontal',
-		},
-		{
-			name: 'Cruiser',
-			size: 3,
-			orientation: 'horizontal',
-		},
-		{
-			name: 'Battleship',
-			size: 4,
-			orientation: 'horizontal',
-		},
-		{
-			name: 'Carrier',
-			size: 5,
-			orientation: 'horizontal',
-		},
-	])
+	const [shipsToPlace, setShipsToPlace] = useState<ShipData[]>(initialShipsToPlace)
+	const [placementError, setPlacementError] = useState(null)
 
 	const playGame = async (): Promise<void> => {
 		try {
@@ -53,10 +36,12 @@ const App = () => {
 
 	const quitGame = async (): Promise<void> => {
 		await post('/game/start')
+		setPlacementError(null)
 		setGameStarted(false)
 		setBoard(null)
 		setShipsPlaced(false)
 		setActiveShipBeingPlaced(null)
+		setShipsToPlace(initialShipsToPlace)
 		setCtaText('Let\'s start playing!')
 	}
 
@@ -70,6 +55,7 @@ const App = () => {
 	}
 
 	const handleShipClick = (ship: any): void => {
+		if (placementError) setPlacementError(null)
 		if (activeShipBeingPlaced === ship) setActiveShipBeingPlaced(null)
 		else setActiveShipBeingPlaced(ship)
 	}
@@ -107,8 +93,8 @@ const App = () => {
 				setShipsPlaced(true)
 				setCtaText('Great! Now it\'s time to search for your opponents ships. Make a guess!')
 			}
-		} catch (ex) {
-			console.error('Exception occurred', ex)
+		} catch (ex: any) {
+			setPlacementError(ex.response.data.error)
 		}
 	}
 
@@ -127,6 +113,7 @@ const App = () => {
 			<main className="app-content">
 				<div className="container">
 					<h3>{ctaText}</h3>
+					{placementError && <p className="error-msg">{placementError}</p>}
 					{gameStarted && !shipsPlaced && (
 						<ShipsToPlace
 							ships={shipsToPlace}

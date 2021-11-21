@@ -3,6 +3,7 @@
 	justify-content: space-evenly;
 	align-items: center;
 	margin: 20px 0;
+	min-height: 170px;
 }
 
 .ships-group .ship.active-placing .ship-blocks span {
