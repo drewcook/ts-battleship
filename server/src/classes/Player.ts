@@ -20,50 +20,51 @@ class Player implements IPlayer {
 	}
 
 	public placeShip(ship: IShip, location: Location): void {
-		// Check if location is occupied
-		const square: IPoint = this.board.getPoint(location)
+		try {
+			// Check if location is occupied
+			const square: IPoint = this.board.getPoint(location)
 
-		if (square.status === EPointStatus.Hit || square.status === EPointStatus.Miss)
-			throw new Error('Uh oh, this square is in a bad state. Please refresh.')
+			if (square.status === EPointStatus.Hit || square.status === EPointStatus.Miss)
+				throw new Error('Uh oh, this square is in a bad state. Please refresh.')
 
-		if (square.status === EPointStatus.Ship)
-			throw new Error('Uh oh, cannot place a ship on top of another ship.')
+			if (square.status === EPointStatus.Ship)
+				throw new Error('Uh oh, cannot place a ship on top of another ship.')
 
-		// Check if ship is in player's fleet
-		const playerShip = this.fleet.find(s => s.type === ship.name)
-		if (!playerShip)
-			throw new Error('Uh oh, ship not found in player\'s fleet.')
+			// Check if ship is in player's fleet
+			const playerShip = this.fleet.find(s => s.type === ship.name)
+			if (!playerShip)
+				throw new Error('Uh oh, ship not found in player\'s fleet.')
 
-		// Update orientation for player's ship
-		playerShip.orientation = ship.orientation
+			// Update orientation for player's ship
+			playerShip.orientation = ship.orientation
 
-		// Desired square empty, check if ship will fit there
-		const canFit: boolean = this.board.checkShipPlacement(playerShip, location)
-		if (!canFit)
-			throw new Error('Uh oh, ship cannot fit in this space.')
+			// Desired square empty, check if ship will fit there
+			const canFit: boolean = this.board.checkShipPlacement(playerShip, location)
 
-		// Ship can fit, place on board
-		const { x, y } = location
-		if (playerShip.orientation === 'horizontal') {
-			// walk horizontally
-			for (let col = y; col < y + playerShip.size; col++) {
-				const point = this.board.ocean[x][col]
-				if (point.status === EPointStatus.Ship) throw new Error('Uh oh, cannot place a ship on top of another ship.')
-				// Update players board that a ship occupies the space
-				point.updateStatus(EPointStatus.Ship)
-				// Add space to ship's occupied spaces
-				playerShip.spacesOccupied.push(point)
+			if (canFit) {
+				const { x, y } = location
+				if (playerShip.orientation === 'horizontal') {
+					// walk horizontally
+					for (let col = y; col < y + playerShip.size; col++) {
+						const point = this.board.ocean[x][col]
+						// Update players board that a ship occupies the space
+						point.updateStatus(EPointStatus.Ship)
+						// Add space to ship's occupied spaces
+						playerShip.spacesOccupied.push(point)
+					}
+				} else {
+					// walk vertically
+					for (let row = x; row < x + playerShip.size; row++) {
+						const point = this.board.ocean[row][y]
+						// Update players board that a ship occupies the space
+						point.updateStatus(EPointStatus.Ship)
+						// Add space to ship's occupied spaces
+						playerShip.spacesOccupied.push(point)
+					}
+				}
 			}
-		} else {
-			// walk vertically
-			for (let row = x; row < x + playerShip.size; row++) {
-				const point = this.board.ocean[row][y]
-				if (point.status === EPointStatus.Ship) throw new Error('Uh oh, cannot place a ship on top of another ship.')
-				// Update players board that a ship occupies the space
-				point.updateStatus(EPointStatus.Ship)
-				// Add space to ship's occupied spaces
-				playerShip.spacesOccupied.push(point)
-			}
+		} catch (ex: any) {
+			throw new Error(ex.message) // Pass error through
 		}
 	}
 

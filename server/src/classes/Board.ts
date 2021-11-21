@@ -27,23 +27,25 @@ class Board implements IBoard {
 
 	public checkShipPlacement(ship: IShip, startLocation: Location): boolean {
 		const { x, y } = startLocation
-		let shipWalked = 0
 
+		// Check for out of bounds and if another ship is in space
 		if (ship.orientation === 'horizontal') {
 			// walk horizontally
-			for (let col = y; col < this.ocean[0].length; col++) {
-				if (this.ocean[x][col].status === EPointStatus.Ship) throw new Error('Cannot place over ship')
-				shipWalked++
+			for (let col = y; col < y + ship.size; col++) {
+				const point = this.ocean[x][col]
+				if (!point) throw new Error('Uh oh, ship cannot be placed out of bounds.')
+				if (point.status === EPointStatus.Ship) throw new Error('Uh oh, cannot place a ship on top of another ship.')
 			}
 		} else {
 			// walk vertically
-			for (let row = x; row < this.ocean.length; row++) {
-				if (this.ocean[row][y].status === EPointStatus.Ship) throw new Error('Cannot place over ship')
-				shipWalked++
+			for (let row = x; row < x + ship.size; row++) {
+				const point = this.ocean[row][y]
+				if (!point) throw new Error('Uh oh, ship cannot be placed out of bounds.')
+				if (point.status === EPointStatus.Ship) throw new Error('Uh oh, cannot place a ship on top of another ship.')
 			}
 		}
 
-		return shipWalked >= ship.size
+		return true
 	}
 }
 

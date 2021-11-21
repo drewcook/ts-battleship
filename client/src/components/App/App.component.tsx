@@ -97,9 +97,12 @@ const App = () => {
 			await post('/ship/place', { ship: activeShipBeingPlaced, location: location})
 			const res = await get('/board')
 			const shipsLeftToPlace = shipsToPlace.filter(s => s.name !== activeShipBeingPlaced.name)
+
 			setBoard(res)
 			setShipsToPlace(shipsLeftToPlace)
 			setActiveShipBeingPlaced(null)
+
+			// All ships have been placed, start guessing
 			if (shipsLeftToPlace.length === 0) {
 				setShipsPlaced(true)
 				setCtaText('Great! Now it\'s time to search for your opponents ships. Make a guess!')
@@ -108,8 +111,6 @@ const App = () => {
 			console.error('Exception occurred', ex)
 		}
 	}
-
-	// TODO: determine if all ships are placed
 
 	return (
 		<div className="app">
