@@ -1,6 +1,6 @@
 {
   "name": "battleship-types",
-  "version": "1.0.8",
+  "version": "1.09",
   "description": "TypeScript type definitions for the game of Battleship.",
   "main": "index.js",
   "types": "index.d.ts",
