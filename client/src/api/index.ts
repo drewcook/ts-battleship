@@ -14,8 +14,8 @@ export const get = async (route: string) => {
 	}
 }
 
-export const post = async (route: string) => {
-	const promise = await axios.post(baseUrl + route)
+export const post = async (route: string, data: any = null) => {
+	const promise = await axios.post(baseUrl + route, data)
 	const status = promise.status
 	if (status === 200) {
 		const data = promise.data

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+		"baseUrl": ".",
     "target": "esnext",
     "module": "commonjs",
     "outDir": "./dist",
@@ -7,6 +8,9 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+		"paths": {
+			"@types": [ "../types/index.d.ts"]
+		}
   }
 }

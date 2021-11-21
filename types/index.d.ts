@@ -9,6 +9,8 @@
  */
 export interface IGame {
 	board: IBoard
+	player: IPlayer,
+	opponent: IPlayer,
 	play(): void
 }
 
@@ -17,21 +19,29 @@ export interface IGame {
  */
 export interface IBoard {
 	ocean: IPoint[][]
-	getPoint(x: number, y: number): IPoint
+	getPoint(location: Location): IPoint
+	checkShipPlacement(ship: IShip, startLocation: Location): boolean
+}
+
+/**
+ * Location
+ */
+type Location = {
+	x: number,
+	y: number,
 }
 
 /**
  * Points
  */
 export interface IPoint {
-	x: number
-	y: number
+	location: Location
 	status: PointStatus
 	updateStatus(status: PointStatus): void
 }
 
 // Union (enum) for point statuses
-export type PointStatus = 'Hit' | 'Miss' | 'Ship' | 'Empty'
+export type PointStatus = 'Sunk' | 'Hit' | 'Miss' | 'Ship' | 'Empty'
 
 /**
  * Players
@@ -39,9 +49,9 @@ export type PointStatus = 'Hit' | 'Miss' | 'Ship' | 'Empty'
 export interface IPlayer {
 	name: string
 	board: IBoard
-	ships: IShip[]
+	fleet: IShip[]
 	allShipsDestroyed: boolean
-	placeShips(): void
+	placeShip(ship: IShip, location: Location): void
 	receiveGuess(point: IPoint): void
 	makeGuess(point: IPoint, opponent: IPlayer): void
 }
@@ -53,9 +63,12 @@ export interface IPlayer {
 // Union (enum) for ship types
 export type ShipType = 'Destroyer' | 'Submarine' | 'Cruiser' | 'Battleship' | 'Carrier'
 
+export type ShipOrientation = 'horizontal' | 'vertical'
+
 export interface IShip {
 	type: ShipType
 	name: string
+	orientation: ShipOrientation
 	spacesOccupied: IPoint[]
 	size: number
 	isSunk(): boolean

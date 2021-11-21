@@ -1,4 +1,4 @@
-import { IPoint, IShip, ShipType } from 'battleship-types'
+import { IPoint, IShip, ShipOrientation, ShipType } from '@types'
 import { EPointStatus } from './Point'
 
 export enum EShipType {
@@ -12,6 +12,7 @@ export enum EShipType {
 class Ship implements IShip {
 	public type: ShipType
 	public name: string
+	public orientation: ShipOrientation = 'horizontal'
 	public spacesOccupied: IPoint[] = []
 	public size: number
 
@@ -44,10 +45,13 @@ class Ship implements IShip {
 		}
 	}
 
+	// TODO: Call this after making guess and is a hit
 	public isSunk(): boolean {
 		this.spacesOccupied.forEach(point => {
 			if (point.status !== EPointStatus.Hit) return false
 		})
+		// Update to sunken if so.
+		this.spacesOccupied.forEach(point => point.updateStatus(EPointStatus.Sunk))
 		return true
 	}
 
