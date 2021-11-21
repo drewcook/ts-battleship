@@ -8,7 +8,8 @@
  * Game
  */
 export interface IGame {
-	board: IBoard
+	playerBoard: IBoard,
+	opponentBoard: IBoard,
 	player: IPlayer,
 	opponent: IPlayer,
 	play(): void
