@@ -38,7 +38,10 @@ router.get('/board', async (ctx, next) => {
 	try {
 		if (!game) return
 
-		ctx.body = game.board.ocean
+		ctx.body = {
+			playerBoard: game.playerBoard.ocean,
+			opponentBoard: game.opponentBoard.ocean,
+		}
 		ctx.status = HttpStatus.OK
 		await next()
 	} catch (ex: any) {
@@ -54,7 +57,7 @@ router.post('/ship/place', async (ctx, next) => {
 		const { ship, location } = ctx.request.body
 		await game.player.placeShip(ship, location)
 
-		ctx.body = game.board.ocean
+		ctx.body = game.playerBoard.ocean
 		ctx.status = HttpStatus.OK
 		await next()
 	} catch (ex: any) {

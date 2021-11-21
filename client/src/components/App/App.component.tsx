@@ -14,20 +14,23 @@ const initialShipsToPlace: ShipData[] = [
 	{ size: 5, name: 'Carrier', orientation: 'horizontal' },
 ];
 
+export enum EAppStep { Intro, Placing, Guessing, Ending }
+
 const App = () => {
 	const [ctaText, setCtaText] = useState('Let\'s start playing!')
-	const [gameStarted, setGameStarted] = useState(false)
 	const [shipsPlaced, setShipsPlaced] = useState(false)
-	const [board, setBoard] = useState<IPoint[][] | null>(null)
+	const [boardData, setBoardData] = useState<IPoint[][] | null>(null)
+	const [oppBoardData, setOppBoardData] = useState<IPoint[][] | null>(null)
 	const [activeShipBeingPlaced, setActiveShipBeingPlaced] = useState<ShipData | null>(null)
 	const [shipsToPlace, setShipsToPlace] = useState<ShipData[]>(initialShipsToPlace)
 	const [placementError, setPlacementError] = useState(null)
+	const [step, setStep] = useState<EAppStep>(EAppStep.Intro)
 
 	const playGame = async (): Promise<void> => {
 		try {
 			await post('/game/start')
 			displayBoard()
-			setGameStarted(true)
+			setStep(EAppStep.Placing)
 			setCtaText('Place your ships onto the board.')
 		} catch (ex) {
 			console.error('Exception occurred', ex)
@@ -36,19 +39,21 @@ const App = () => {
 
 	const quitGame = async (): Promise<void> => {
 		await post('/game/start')
-		setPlacementError(null)
-		setGameStarted(false)
-		setBoard(null)
+		setStep(EAppStep.Intro)
+		setCtaText('Let\'s start playing!')
+		setBoardData(null)
 		setShipsPlaced(false)
 		setActiveShipBeingPlaced(null)
+		setPlacementError(null)
 		setShipsToPlace(initialShipsToPlace)
-		setCtaText('Let\'s start playing!')
 	}
 
 	const displayBoard = async (): Promise<void> => {
 		try {
 			const res = await get('/board')
-			setBoard(res)
+			console.log(res)
+			setBoardData(res.playerBoard)
+			setOppBoardData(res.opponentBoard)
 		} catch (ex) {
 			console.error('Exception occurred', ex)
 		}
@@ -79,23 +84,28 @@ const App = () => {
 
 	const handlePlaceShipOnBoard = async (location: Location): Promise<void> => {
 		try {
+			setPlacementError(null)
 			if (!activeShipBeingPlaced) return
 			await post('/ship/place', { ship: activeShipBeingPlaced, location: location})
 			const res = await get('/board')
 			const shipsLeftToPlace = shipsToPlace.filter(s => s.name !== activeShipBeingPlaced.name)
 
-			setBoard(res)
+			setBoardData(res.playerBoard)
 			setShipsToPlace(shipsLeftToPlace)
 			setActiveShipBeingPlaced(null)
 
 			// All ships have been placed, start guessing
 			if (shipsLeftToPlace.length === 0) {
 				setShipsPlaced(true)
-				setCtaText('Great! Now it\'s time to search for your opponents ships. Make a guess!')
+				setCtaText('Great! Now it\'s time to search for your opponents ships.')
 			}
 		} catch (ex: any) {
 			setPlacementError(ex.response.data.error)
 		}
+	}
+
+	const startGuessing = (): void => {
+		setStep(EAppStep.Guessing)
 	}
 
 	return (
@@ -103,7 +113,7 @@ const App = () => {
 			<header className="app-header">
 				<div className="container">
 					<h1>The Game of Battleship!</h1>
-					{gameStarted && (
+					{step !== EAppStep.Intro && (
 						<button className="btn quitGameBtn" onClick={quitGame}>
 							Quit Game
 						</button>
@@ -113,27 +123,58 @@ const App = () => {
 			<main className="app-content">
 				<div className="container">
 					<h3>{ctaText}</h3>
-					{placementError && <p className="error-msg">{placementError}</p>}
-					{gameStarted && !shipsPlaced && (
-						<ShipsToPlace
-							ships={shipsToPlace}
-							activeShipToPlace={activeShipBeingPlaced}
-							onShipClick={handleShipClick}
-							onSwapOrientation={handleSwapShipOrientation}
-						/>
-					)}
-					{gameStarted && board !== null && (
-						<Board
-							ocean={board}
-							onPlaceShip={handlePlaceShipOnBoard}
-							placingShips={!shipsPlaced}
-							shipToPlace={activeShipBeingPlaced}
-						/>
-					)}
-					{!gameStarted && (
+					{step === EAppStep.Intro && (
 						<button className="btn" onClick={playGame}>
 							Start Game
 						</button>
+					)}
+					{step === EAppStep.Placing && (
+						<>
+							{placementError && <p className="error-msg">{placementError}</p>}
+							{shipsPlaced
+								? (
+									<button className="btn" onClick={startGuessing}>
+										Let's Go!
+									</button>
+								)
+								: (
+									<ShipsToPlace
+										ships={shipsToPlace}
+										activeShipToPlace={activeShipBeingPlaced}
+										onShipClick={handleShipClick}
+										onSwapOrientation={handleSwapShipOrientation}
+									/>
+								)
+							}
+							<Board
+								size="large"
+								ocean={boardData}
+								step={step}
+								onPlaceShip={handlePlaceShipOnBoard}
+							/>
+						</>
+					)}
+					{step === EAppStep.Guessing && (
+						<div className="grid">
+							<div className="col col-3">
+								<h5>Your Board</h5>
+								<Board
+									size="small"
+									ocean={boardData}
+									step={step}
+									onPlaceShip={handlePlaceShipOnBoard}
+								/>
+								<p>Ships Sunk: 0</p>
+							</div>
+							<div className="col col-9">
+								<Board
+									size="large"
+									ocean={oppBoardData}
+									step={step}
+									onPlaceShip={handlePlaceShipOnBoard}
+								/>
+							</div>
+						</div>
 					)}
 				</div>
 			</main>

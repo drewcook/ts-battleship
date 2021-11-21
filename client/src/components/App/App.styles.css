@@ -64,43 +64,48 @@
 	background-color: #bb0404;
 }
 
-.board {
-	border: 2px solid #ccc;
-	margin: 30px auto;
+
+/*
+	Grid System
+*/
+
+.grid {
+	display: flex;
+	flex: 0 1 auto;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: top;
+	margin-left: -15px;
+	margin-right: -15px;
 }
-
-.board__square {
-	border: 1px solid #ccc;
-	width: 50px;
-	height: 50px;
-	background: #ccc;
-	padding: 5px;
-	text-align: center;
-	cursor: pointer;
-	font-size: 0.8rem;
+/* Full width */
+.grid .col {
+	flex-basis: 100%;
+	max-width: 100%;
 }
-
-.board__square[data-status="Empty"] {
-	background: #61bdf3;
+/* 1/4 */
+.grid .col.col-3 {
+	flex-basis: 25%;
+	max-width: 25%;
 }
-
-.board__square[data-status="Ship"] {
-	background: #184a67;
+/* 1/3 */
+.grid .col.col-4 {
+	flex-basis: 33.33333333%;
+	max-width: 33.33333333%;
 }
-
-.board__square[data-status="Miss"] {
-	background: #848482;
+/* 1/2 */
+.grid .col.col-6 {
+	flex-basis: 50%;
+	max-width: 50%;
 }
-
-.board__square[data-status="Hit"] {
-	background: #a55b07;
+/* 2/3 */
+.grid .col.col-8 {
+	flex-basis: 66.66666666%;
+	max-width: 66.66666666%;
 }
-
-.board__square[data-status="Sunk"] {
-	background: #6c0f0f;
-}
-
-
-.board__square:hover {
-	opacity: 0.9;
+/* 3/4 */
+.grid .col.col-9 {
+	flex-basis: 75%;
+	max-width: 75%;
 }

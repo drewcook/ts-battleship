@@ -1,0 +1,49 @@
+
+.board {
+	border: 2px solid #ccc;
+	margin: 30px auto;
+}
+
+.board__square {
+	border: 1px solid #ccc;
+	background: #ccc;
+	padding: 5px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 0.8rem;
+}
+
+.board-small .board__square {
+	width: 10px;
+	height: 10px;
+}
+
+.board-large .board__square {
+	width: 40px;
+	height: 40px;
+}
+
+.board__square[data-status="Empty"] {
+	background: #61bdf3;
+}
+
+.board__square[data-status="Ship"] {
+	background: #184a67;
+}
+
+.board__square[data-status="Miss"] {
+	background: #848482;
+}
+
+.board__square[data-status="Hit"] {
+	background: #a55b07;
+}
+
+.board__square[data-status="Sunk"] {
+	background: #6c0f0f;
+}
+
+
+.board__square:hover {
+	opacity: 0.9;
+}

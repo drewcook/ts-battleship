@@ -1,4 +1,6 @@
 import { IPoint } from 'battleship-types'
+import { EAppStep } from '../App/App.component'
+import './Board.styles.css'
 
 export enum EPointStatus {
 	Hit, Miss, Ship, Empty, Sunk
@@ -9,22 +11,29 @@ export type Location = {
 	y: number,
 }
 
+type BoardSize = 'small' | "large"
+
 interface BoardProps {
-	ocean: IPoint[][];
-	onPlaceShip(location: Location): void;
-	shipToPlace: object | null;
-	placingShips: boolean;
+	size: BoardSize
+	ocean: IPoint[][] | null
+	onPlaceShip(location: Location): void
+	step: EAppStep
 }
 
 const Board = (props: BoardProps) => {
-	const { ocean, onPlaceShip, placingShips, shipToPlace } = props
+	const { size, ocean, step, onPlaceShip } = props
 
-	const handlePointClick = (point: IPoint): void => {
-		if (placingShips && shipToPlace) onPlaceShip(point.location)
+	const onGuessSquare = (loc: Location): void => {
+		console.log('guessing for location', loc)
 	}
 
-	return (
-		<table className="board">
+	const handlePointClick = (point: IPoint): void => {
+		if (step === EAppStep.Placing) onPlaceShip(point.location)
+		if (step === EAppStep.Guessing) onGuessSquare(point.location)
+	}
+
+	return ocean && (
+		<table className={`board board-${size}`}>
 			<thead>
 				<tr>
 					<th />
