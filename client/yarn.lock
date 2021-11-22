@@ -2874,10 +2874,10 @@
   "resolved" "https://registry.npmjs.org/batch/-/batch-0.6.1.tgz"
   "version" "0.6.1"
 
-"battleship-types@^1.0.9":
-  "integrity" "sha512-XbpteDGImjWFB/vOGaFo7XjRPQD8QLAZygSkodxlZMzjk3LKN9y8xC7U4/mmUoWtufEA8jcOwsq0CfVnjwwhCg=="
-  "resolved" "https://registry.npmjs.org/battleship-types/-/battleship-types-1.0.9.tgz"
-  "version" "1.0.9"
+"battleship-types@^1.0.12":
+  "integrity" "sha512-/ULRJV+EtD/Hq6pukXTZzrnPs73HsCLibdWAqAYZ9iq5m+DXlf6VAe5vl8i2Qjh5PY1uABZD1WUDPjFb8s44Mw=="
+  "resolved" "https://registry.npmjs.org/battleship-types/-/battleship-types-1.0.12.tgz"
+  "version" "1.0.12"
   dependencies:
     "typescript" "^4.5.2"
 

@@ -49,12 +49,12 @@ export type PointStatus = 'Sunk' | 'Hit' | 'Miss' | 'Ship' | 'Empty'
  */
 export interface IPlayer {
 	name: string
-	board: IBoard
+	board: IBoar
 	fleet: IShip[]
 	allShipsDestroyed: boolean
 	placeShip(ship: IShip, location: Location): void
-	receiveGuess(point: IPoint): void
-	makeGuess(point: IPoint, opponent: IPlayer): void
+	receiveGuess(location: Location): PointStatus
+	makeGuess(location: Location, opponent: IPlayer): PointStatus
 }
 
 /**
@@ -73,5 +73,5 @@ export interface IShip {
 	spacesOccupied: IPoint[]
 	size: number
 	isSunk(): boolean
-	updatePoint(point: IPoint): void
+	sink(): void
 }
