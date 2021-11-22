@@ -27,7 +27,7 @@ export interface IBoard {
 /**
  * Location
  */
-type Location = {
+export type Location = {
 	x: number,
 	y: number,
 }
