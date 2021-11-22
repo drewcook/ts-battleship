@@ -7,13 +7,25 @@
 /**
  * Game
  */
+export interface ITurn {
+	id: number
+	player: IPlayer
+	guess: Location
+	result: PointStatus
+}
+
 export interface IGame {
 	playerBoard: IBoard,
 	opponentBoard: IBoard,
 	player: IPlayer,
 	opponent: IPlayer,
+	public turns: ITurn[] = []
+	public winner: IPlayer | null = null
 	play(): void
+	addTurn(turn: ITurn): ITurn[]
+	declareWinner(player: IPlayer): void
 }
+
 
 /**
  * Board
@@ -52,9 +64,10 @@ export interface IPlayer {
 	board: IBoar
 	fleet: IShip[]
 	allShipsDestroyed: boolean
+	guessedSpaces: Map<Location, PointStatus>
 	placeShip(ship: IShip, location: Location): void
 	receiveGuess(location: Location): PointStatus
-	makeGuess(location: Location, opponent: IPlayer): PointStatus
+	makeGuess(location: Location, opponent: IPlayer): ITurn
 }
 
 /**
