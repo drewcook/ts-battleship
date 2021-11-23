@@ -1,5 +1,7 @@
 # Battleship
 
+Play the [Demo App](https://battleship.dco.dev).
+
 This is the classic game of battleship.  It is a full-stack web application writtin in TypeScript. It follows object-oriented design patterns and principals. It was inspired by [this design](https://www.cs.nmsu.edu/~rth/cs/cs187/f97/battleshipdesign.html) and [SOLID Principles](https://en.wikipedia.org/wiki/SOLID).
 
 This project includes the following tech:
