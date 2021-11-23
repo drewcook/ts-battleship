@@ -9,7 +9,7 @@
  */
 export interface ITurn {
 	id: number
-	player: IPlayer
+	playerName: string
 	guess: Location
 	result: PointStatus
 }
@@ -64,7 +64,7 @@ export interface IPlayer {
 	board: IBoar
 	fleet: IShip[]
 	allShipsDestroyed: boolean
-	guessedSpaces: Map<Location, PointStatus>
+	guessedSpaces: Map<string, PointStatus>
 	placeShip(ship: IShip, location: Location): void
 	receiveGuess(location: Location): PointStatus
 	makeGuess(location: Location, opponent: IPlayer): ITurn
