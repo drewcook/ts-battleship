@@ -4,12 +4,12 @@
   "description": "The backend for ts-battleship",
   "main": "dist/index.js",
   "scripts": {
-    "start": "concurrently npm:start:*",
+    "start": "concurrently npm:start:build npm:start:run",
 		"start:build": "tsc -b",
-		"start:run": "node dist/index.js",
+		"start:run": "node ./dist/index.js",
     "dev": "concurrently npm:dev:*",
     "dev:build": "tsc -w",
-    "dev:run": "nodemon dist/index.js",
+    "dev:run": "nodemon ./dist/index.js",
     "lint": "npx prettier --config ./prettier.config.js ./src* --check",
     "lint:fix": "npx prettier --config ./prettier.config.js ./src* --write",
     "test": "echo \"Error: no test specified\" && exit 1"
