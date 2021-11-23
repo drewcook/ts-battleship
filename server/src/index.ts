@@ -23,6 +23,8 @@ app.use(mount('/', static_pages))
 app.use(router.routes()).use(router.allowedMethods())
 
 // Open and listen on port
-app.listen(PORT, function () {
-	console.log('==> 🌎  Listening on port %s. Visit http://localhost:%s/', PORT, PORT)
+app.listen(PORT, () => {
+	console.log(`==> 🌎  Listening on port %s. Visit ${process.env.HOST}:${PORT}/`)
 })
+
+export default app

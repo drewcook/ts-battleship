@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3000'
+const baseUrl = process.env.HOST + ':' + process.env.PORT
 
 export const get = async (route: string) => {
 	const promise = await axios.get(baseUrl + route)
