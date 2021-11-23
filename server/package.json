@@ -4,9 +4,10 @@
   "description": "The backend for ts-battleship",
   "main": "dist/index.js",
   "scripts": {
-    "start": "concurrently npm:start:build npm:start:run",
+    "start": "concurrently npm:start:build npm:start:deploy",
 		"start:build": "tsc -b",
 		"start:run": "node ./dist/index.js",
+		"start:deploy": "node ./server/dist/index.js",
     "dev": "concurrently npm:dev:*",
     "dev:build": "tsc -w",
     "dev:run": "nodemon ./dist/index.js",
