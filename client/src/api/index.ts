@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const baseUrl = process.env.HOST + ':' + process.env.PORT
+const production = 'https://battleship.dco.dev'
+const development = 'localhost'
+const baseUrl: string = process.env.NODE_ENV === 'production' ? production : development
 
 export const get = async (route: string) => {
 	const promise = await axios.get(baseUrl + route)
