@@ -3,7 +3,11 @@ import { EAppStep } from '../App/App.component'
 import './Board.styles.css'
 
 export enum EPointStatus {
-	Hit, Miss, Ship, Empty, Sunk
+	Hit = 'Hit',
+	Miss = 'Miss',
+	Ship = 'Ship',
+	Empty = 'Empty',
+	Sunk = 'Sunk'
 }
 
 export type Location = {
@@ -11,25 +15,23 @@ export type Location = {
 	y: number,
 }
 
-type BoardSize = 'small' | "large"
+type BoardSize = 'small' | "large" | "guessing" | "end"
 
 interface BoardProps {
 	size: BoardSize
 	ocean: IPoint[][] | null
-	onPlaceShip(location: Location): void
 	step: EAppStep
+	onPlaceShip(location: Location): void
+	onGuess(location: Location): void
 }
 
 const Board = (props: BoardProps) => {
-	const { size, ocean, step, onPlaceShip } = props
-
-	const onGuessSquare = (loc: Location): void => {
-		console.log('guessing for location', loc)
-	}
+	const { size, ocean, step, onPlaceShip, onGuess} = props
 
 	const handlePointClick = (point: IPoint): void => {
+		if (size === 'small' || size === "end") return
 		if (step === EAppStep.Placing) onPlaceShip(point.location)
-		if (step === EAppStep.Guessing) onGuessSquare(point.location)
+		if (step === EAppStep.Guessing && (point.status === EPointStatus.Empty || point.status === EPointStatus.Ship)) onGuess(point.location)
 	}
 
 	return ocean && (
@@ -52,7 +54,7 @@ const Board = (props: BoardProps) => {
 			<tbody>
 				{ocean.map((row: IPoint[], idx: number) => (
 					<tr key={`row-${idx + 1}`}>
-						<td>{idx + 1}</td>
+						<td className="board__header">{idx + 1}</td>
 						{row.map((point: IPoint) => (
 							<td
 								className="board__square"
@@ -60,12 +62,6 @@ const Board = (props: BoardProps) => {
 								onClick={() => handlePointClick(point)}
 								data-status={point.status}
 							>
-								{/*
-									point.status === "Empty" && `[${point.location.x}][${point.location.y}]`
-									point.status === "Ship" && 'S'
-									point.status === "Hit" && 'X'
-									point.status === "Miss" && '-'
-								*/}
 							</td>
 						))}
 					</tr>

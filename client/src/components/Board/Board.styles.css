@@ -9,7 +9,6 @@
 	background: #ccc;
 	padding: 5px;
 	text-align: center;
-	cursor: pointer;
 	font-size: 0.8rem;
 }
 
@@ -18,12 +17,36 @@
 	height: 10px;
 }
 
-.board-large .board__square {
+.board-large .board__square,
+.board-guessing .board__square {
 	width: 40px;
 	height: 40px;
 }
 
-.board__square[data-status="Empty"] {
+.board-large .board__square[data-status="Empty"]:hover,
+.board-guessing .board__square[data-status="Empty"]:hover,
+.board-guessing .board__square[data-status="Ship"]:hover {
+	opacity: 0.9;
+	cursor: pointer;
+}
+
+.board-end .board__square {
+	width: 20px;
+	height: 20px;
+}
+
+.board-end .board__square:hover {
+	opacity: 1;
+	cursor: unset;
+}
+
+.board-small .board__header,
+.board-small th {
+	font-size: 0.8rem;
+}
+
+.board__square[data-status="Empty"],
+.board-guessing .board__square[data-status="Ship"] {
 	background: #61bdf3;
 }
 
@@ -41,9 +64,4 @@
 
 .board__square[data-status="Sunk"] {
 	background: #6c0f0f;
-}
-
-
-.board__square:hover {
-	opacity: 0.9;
 }

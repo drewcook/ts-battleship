@@ -45,19 +45,23 @@ class Ship implements IShip {
 		}
 	}
 
-	// TODO: Call this after making guess and is a hit
+	// Checks if a ship's spaces
 	public isSunk(): boolean {
-		this.spacesOccupied.forEach(point => {
-			if (point.status !== EPointStatus.Hit) return false
-		})
-		// Update to sunken if so.
-		this.spacesOccupied.forEach(point => point.updateStatus(EPointStatus.Sunk))
-		return true
+		let sunk = true
+		for (let { status } of this.spacesOccupied) {
+			if (status !== EPointStatus.Hit && status !== EPointStatus.Sunk) {
+				sunk = false
+				break
+			}
+		}
+		return sunk
 	}
 
-	public updatePoint(point: IPoint): void {
-		console.log('updating ship point', point)
+	// Update all ship's spaces to sunk
+	public sink(): void {
+		this.spacesOccupied.forEach(point => point.updateStatus(EPointStatus.Sunk))
 	}
+
 }
 
 export default Ship

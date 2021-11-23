@@ -1,4 +1,4 @@
-import { IBoard, IGame, IPlayer } from "battleship-types"
+import { IBoard, IGame, IPlayer, ITurn } from "battleship-types"
 import Board from './Board'
 import Player from './Player'
 
@@ -8,6 +8,8 @@ class Game implements IGame {
 	public opponentBoard: IBoard = new Board()
 	public player: IPlayer
 	public opponent: IPlayer
+	public turns: ITurn[] = []
+	public winner: IPlayer | null = null
 
 	constructor() {
 		// Setup player (could be UI generated)
@@ -19,6 +21,23 @@ class Game implements IGame {
 
 	public play(): void {
 		console.log("Let's play battleship.")
+	}
+
+	public addTurn(turn: ITurn): ITurn[] {
+		// Increment turn id, 1-based
+		const { playerName, guess, result } = turn
+		let incremented = {
+			id: this.turns.length++,
+			playerName,
+			guess,
+			result
+		}
+		this.turns.push(incremented)
+		return this.turns
+	}
+
+	public declareWinner(player: IPlayer): void {
+		this.winner = player
 	}
 }
 

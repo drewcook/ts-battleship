@@ -1,4 +1,5 @@
-import { IBoard, IPlayer, IPoint, IShip, Location } from 'battleship-types'
+import { IBoard, IPlayer, IPoint, IShip, Location, PointStatus } from 'battleship-types'
+import { ITurn } from './Game'
 import { EPointStatus } from './Point'
 import Ship, { EShipType } from './Ship'
 
@@ -13,10 +14,19 @@ class Player implements IPlayer {
 		new Ship(EShipType.Carrier),
 	]
 	public allShipsDestroyed: boolean = false
+	public guessedSpaces: Map<string, PointStatus> = new Map()
 
 	constructor(name: string, board: IBoard) {
 		this.name = name
 		this.board = board
+	}
+
+	// Checks if all player's ships are sunken
+	public hasSunkenFleet = (): boolean => {
+		for (let ship of this.fleet) {
+			if (!ship.isSunk()) return false
+		}
+		return true
 	}
 
 	public placeShip(ship: IShip, location: Location): void {
@@ -68,25 +78,88 @@ class Player implements IPlayer {
 		}
 	}
 
-	public receiveGuess(point: IPoint): void {
-		console.log(`Receiving guess on point ${point}...`)
-		// 1. Get point from board
+	public receiveGuess(location: Location): PointStatus {
+		// Point from board
+		const point = this.board.getPoint(location)
+
+		// Point has already been guessed
+		if (point.status === EPointStatus.Sunk || point.status === EPointStatus.Hit || point.status === EPointStatus.Miss)
+			throw new Error(`This point has already been guessed - [${location.x}, ${location.y}]`)
+
 		// Point is miss:
-		// return a miss; allow guesser to add to list of guessed points
+		if (point.status === EPointStatus.Empty) {
+			// update point on the board
+			point.updateStatus(EPointStatus.Miss)
+			console.info('Miss!')
+			return EPointStatus.Miss
+		}
 
 		// Point is hit:
-		// Cycle through this.ships and check if point guessed matches any ship's points
-		// Alternatively, keep a list of occupied spaces and cycle through those for a match
-		// After marking the ship's point as PointStatus.Hit, then check if all ship's points are Hit. If so, sink it.
-		// Finally if all player's ships are sunk, end the game this.allShipsDestroyed = true
+		if (point.status === EPointStatus.Ship) {
+			// update point on the board
+			point.updateStatus(EPointStatus.Hit)
+			console.info('Hit!')
+
+			// update point on the ship
+			// Alternatively, keep a list of occupied spaces and cycle through those for a match
+			let hitShip: IShip | undefined
+			for (let ship of this.fleet) {
+				if (hitShip) break
+				for (let pointOccupied of ship.spacesOccupied) {
+					if (pointOccupied.location.x === location.x && pointOccupied.location.y === location.y) {
+						pointOccupied.updateStatus(EPointStatus.Hit)
+						hitShip = ship
+						break;
+					}
+				}
+			}
+
+			// Sink ship if all points have been hit
+			const shipSunk = hitShip?.isSunk()
+			if (hitShip && shipSunk) {
+				hitShip.sink()
+				console.info(`The ${hitShip.name} has been sunk!`)
+
+				// Finally if all player's ships are sunk, end the game
+				if (this.hasSunkenFleet()) {
+					this.allShipsDestroyed = true
+				}
+				return EPointStatus.Sunk
+			}
+			return EPointStatus.Hit
+		}
+
+		// Should never get called
+		return EPointStatus.Empty
 	}
 
-	public makeGuess(point: IPoint, opponent: IPlayer): void {
-		console.log(
-			`Player ${this.name} is making guess against ${opponent.name} for point ${point}...`,
-		)
-		// Call other player's receiveGuess
-		opponent.receiveGuess(point)
+	public makeGuess(location: Location, opponent: IPlayer): ITurn {
+		// Set up base turn
+		let status: PointStatus = EPointStatus.Empty
+		const turn: ITurn = {
+			id: 0, // Increment later
+			playerName: this.name,
+			guess: location,
+			result: status,
+		}
+
+		// Check if location has been guessed already (for AI)
+		// If so, generate a new random location
+		let guess = location
+		let key = `${guess.x}${guess.y}`
+		while (this.guessedSpaces.has(key)) {
+			guess = {
+				x: Math.floor(Math.random() * 10),
+				y: Math.floor(Math.random() * 10)
+			}
+			key = `${guess.x}${guess.y}`
+		}
+
+		// Make guess and add it to cache
+		turn.result = opponent.receiveGuess(guess)
+		this.guessedSpaces.set(key, status)
+
+		return turn
 	}
 }
 

@@ -1,8 +1,7 @@
 import { IPoint } from 'battleship-types'
 import { useState } from 'react'
 import { get, post } from '../../api'
-import type { Location } from '../Board/Board.component'
-import Board from '../Board/Board.component'
+import Board, { Location } from '../Board/Board.component'
 import ShipsToPlace, { ShipData } from '../Ship/ShipsToPlace'
 import './App.styles.css'
 
@@ -24,12 +23,16 @@ const App = () => {
 	const [activeShipBeingPlaced, setActiveShipBeingPlaced] = useState<ShipData | null>(null)
 	const [shipsToPlace, setShipsToPlace] = useState<ShipData[]>(initialShipsToPlace)
 	const [placementError, setPlacementError] = useState(null)
+	const [guessResult, setGuessResult] = useState(null)
+	const [guessError, setGuessError] = useState(null)
 	const [step, setStep] = useState<EAppStep>(EAppStep.Intro)
+	const [computerThinking, setComputerThinking] = useState(false)
+	const [winner, setWinner] = useState<string | null>(null)
 
 	const playGame = async (): Promise<void> => {
 		try {
 			await post('/game/start')
-			displayBoard()
+			displayBoards()
 			setStep(EAppStep.Placing)
 			setCtaText('Place your ships onto the board.')
 		} catch (ex) {
@@ -38,20 +41,27 @@ const App = () => {
 	}
 
 	const quitGame = async (): Promise<void> => {
-		await post('/game/start')
-		setStep(EAppStep.Intro)
-		setCtaText('Let\'s start playing!')
+		// reset backend
+		await post('/game/quit')
+
+		// reset UI
 		setBoardData(null)
 		setShipsPlaced(false)
 		setActiveShipBeingPlaced(null)
 		setPlacementError(null)
+		setGuessResult(null)
+		setGuessError(null)
+		setWinner(null)
 		setShipsToPlace(initialShipsToPlace)
+
+		// set step
+		setCtaText('Let\'s start playing!')
+		setStep(EAppStep.Intro)
 	}
 
-	const displayBoard = async (): Promise<void> => {
+	const displayBoards = async (): Promise<void> => {
 		try {
-			const res = await get('/board')
-			console.log(res)
+			const res = await get('/boards')
 			setBoardData(res.playerBoard)
 			setOppBoardData(res.opponentBoard)
 		} catch (ex) {
@@ -82,15 +92,30 @@ const App = () => {
 		setActiveShipBeingPlaced(null)
 	}
 
+	const handleAutoplace = async (): Promise<void> => {
+		try {
+			await post('/player/place', { auto: true })
+			const res = await get('/boards')
+			setBoardData(res.playerBoard)
+			setShipsPlaced(true)
+				setCtaText('Great! Now it\'s time to search for your opponents ships.')
+		} catch (ex: any) {
+			console.error('Exception occurred handleAutoplace()', ex)
+		}
+	}
+
 	const handlePlaceShipOnBoard = async (location: Location): Promise<void> => {
 		try {
 			setPlacementError(null)
 			if (!activeShipBeingPlaced) return
-			await post('/ship/place', { ship: activeShipBeingPlaced, location: location})
-			const res = await get('/board')
-			const shipsLeftToPlace = shipsToPlace.filter(s => s.name !== activeShipBeingPlaced.name)
+			await post('/player/place', { ship: activeShipBeingPlaced, location: location})
 
+			// Update board
+			const res = await get('/boards')
 			setBoardData(res.playerBoard)
+
+			// Update ships to place
+			const shipsLeftToPlace = shipsToPlace.filter(s => s.name !== activeShipBeingPlaced.name)
 			setShipsToPlace(shipsLeftToPlace)
 			setActiveShipBeingPlaced(null)
 
@@ -104,8 +129,48 @@ const App = () => {
 		}
 	}
 
-	const startGuessing = (): void => {
-		setStep(EAppStep.Guessing)
+	const startGuessing = async (): Promise<void> => {
+		try {
+			// Place AI ships prior to starting guessing
+			await post('/opponent/place')
+			setStep(EAppStep.Guessing)
+			displayBoards()
+		} catch (ex: any) {
+			console.error('Exception occurred', ex)
+		}
+	}
+
+	const handleGuess = async (loc: Location): Promise<void> => {
+		try {
+			setGuessError(null)
+			setGuessResult(null)
+			const res = await post('/player/guess', loc)
+			// Update UI based off of result
+			setGuessResult(res.lastTurn.result)
+			displayBoards()
+
+			if (res.gameOver) {
+				setWinner(res.lastTurn.playerName)
+				setCtaText('Congratulations, you live to sail another day!')
+				setStep(EAppStep.Ending)
+			} else {
+				// Allow for opponent to guess
+				setComputerThinking(true)
+				setTimeout(async () => {
+					const res = await post('/opponent/guess')
+					setComputerThinking(false)
+					displayBoards()
+
+					if (res.gameOver) {
+						setWinner(res.lastTurn.playerName)
+						setCtaText('Oh oh, your fleet has been sunk! Game Over.')
+						setStep(EAppStep.Ending)
+					}
+				}, 500)
+			}
+		} catch (ex: any) {
+			setGuessError(ex.response.data.error)
+		}
 	}
 
 	return (
@@ -138,12 +203,17 @@ const App = () => {
 									</button>
 								)
 								: (
+									<>
+									<button className="btn" onClick={handleAutoplace}>
+										Autoplace
+									</button>
 									<ShipsToPlace
 										ships={shipsToPlace}
 										activeShipToPlace={activeShipBeingPlaced}
 										onShipClick={handleShipClick}
 										onSwapOrientation={handleSwapShipOrientation}
 									/>
+									</>
 								)
 							}
 							<Board
@@ -151,6 +221,7 @@ const App = () => {
 								ocean={boardData}
 								step={step}
 								onPlaceShip={handlePlaceShipOnBoard}
+								onGuess={handleGuess}
 							/>
 						</>
 					)}
@@ -158,23 +229,61 @@ const App = () => {
 						<div className="grid">
 							<div className="col col-3">
 								<h5>Your Board</h5>
-								<Board
-									size="small"
-									ocean={boardData}
-									step={step}
-									onPlaceShip={handlePlaceShipOnBoard}
-								/>
-								<p>Ships Sunk: 0</p>
+								{computerThinking
+									? (
+										<p>Computer thinking...</p>
+									)
+									: (
+										<Board
+											size="small"
+											ocean={boardData}
+											step={step}
+											onPlaceShip={handlePlaceShipOnBoard}
+											onGuess={handleGuess}
+										/>
+									)
+								}
+								{/* <p>Ships Sunk: 0</p> */}
 							</div>
 							<div className="col col-9">
+								{guessError && <p className="error-msg">{guessError}</p>}
+								<h5>Last Result: {guessResult || 'N/A'}</h5>
 								<Board
-									size="large"
+									size="guessing"
 									ocean={oppBoardData}
 									step={step}
 									onPlaceShip={handlePlaceShipOnBoard}
+									onGuess={handleGuess}
 								/>
 							</div>
 						</div>
+					)}
+					{step === EAppStep.Ending && (
+						<>
+							<p>{winner} has won the game!</p>
+							<div className="grid">
+								<div className="col col-6">
+									<h4>Opponent's Board</h4>
+									<Board
+										size="end"
+										ocean={boardData}
+										step={step}
+										onPlaceShip={handlePlaceShipOnBoard}
+										onGuess={handleGuess}
+									/>
+								</div>
+								<div className="col col-6">
+									<h4>Your Board</h4>
+									<Board
+										size="end"
+										ocean={oppBoardData}
+										step={step}
+										onPlaceShip={handlePlaceShipOnBoard}
+										onGuess={handleGuess}
+									/>
+								</div>
+							</div>
+						</>
 					)}
 				</div>
 			</main>
