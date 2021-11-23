@@ -1,0 +1,19 @@
+{
+  "name": "ts-battleship",
+  "version": "1.0.0",
+  "description": "This is the classic game of battleship.  It is a full-stack web application writtin in TypeScript. It follows object-oriented design patterns and principals. It was inspired by [this design](https://www.cs.nmsu.edu/~rth/cs/cs187/f97/battleshipdesign.html) and [SOLID Principles](https://en.wikipedia.org/wiki/SOLID).",
+  "scripts": {
+		"deploy": "cd ./server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drewcook/ts-battleship.git"
+  },
+  "keywords": ["typescript", "battleship", "oop", "react", "koa", "node", "types"],
+  "author": "Drew Cook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drewcook/ts-battleship/issues"
+  },
+  "homepage": "https://github.com/drewcook/ts-battleship#readme"
+}
