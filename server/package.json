@@ -4,8 +4,6 @@
   "description": "The backend for ts-battleship",
   "main": "dist/index.js",
   "scripts": {
-		"prestart": "cd ../client && npm run build",
-		"prepare": "cd ../client && npm i",
     "start": "concurrently npm:start:*",
 		"start:build": "tsc -b",
 		"start:run": "node dist/index.js",
