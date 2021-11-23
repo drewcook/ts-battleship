@@ -1,7 +1,7 @@
-import { IGame, Location } from 'battleship-types'
+import { IGame, ITurn, Location } from 'battleship-types'
 import HttpStatus from 'http-status'
 import Router from 'koa-router'
-import Game, { ITurn } from './classes/Game'
+import Game from './classes/Game'
 
 const router = new Router()
 
