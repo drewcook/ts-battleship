@@ -1,11 +1,11 @@
 import { IPoint, Location, PointStatus } from 'battleship-types'
 
 export enum EPointStatus {
-	Empty = "Empty",
-	Ship = "Ship",
-	Miss = "Miss",
-	Hit = "Hit",
-	Sunk = "Sunk"
+	Empty = 'Empty',
+	Ship = 'Ship',
+	Miss = 'Miss',
+	Hit = 'Hit',
+	Sunk = 'Sunk',
 }
 
 class Point implements IPoint {

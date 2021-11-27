@@ -41,8 +41,7 @@ class Player implements IPlayer {
 
 			// Check if ship is in player's fleet
 			const playerShip = this.fleet.find(s => s.type === ship.name)
-			if (!playerShip)
-				throw new Error('Uh oh, ship not found in player\'s fleet.')
+			if (!playerShip) throw new Error("Uh oh, ship not found in player's fleet.")
 
 			// Update orientation for player's ship
 			playerShip.orientation = ship.orientation
@@ -82,7 +81,11 @@ class Player implements IPlayer {
 		const point = this.board.getPoint(location)
 
 		// Point has already been guessed
-		if (point.status === EPointStatus.Sunk || point.status === EPointStatus.Hit || point.status === EPointStatus.Miss)
+		if (
+			point.status === EPointStatus.Sunk ||
+			point.status === EPointStatus.Hit ||
+			point.status === EPointStatus.Miss
+		)
 			throw new Error(`This point has already been guessed - [${location.x}, ${location.y}]`)
 
 		// Point is miss:
@@ -108,7 +111,7 @@ class Player implements IPlayer {
 					if (pointOccupied.location.x === location.x && pointOccupied.location.y === location.y) {
 						pointOccupied.updateStatus(EPointStatus.Hit)
 						hitShip = ship
-						break;
+						break
 					}
 				}
 			}
@@ -149,7 +152,7 @@ class Player implements IPlayer {
 		while (this.guessedSpaces.has(key)) {
 			guess = {
 				x: Math.floor(Math.random() * 10),
-				y: Math.floor(Math.random() * 10)
+				y: Math.floor(Math.random() * 10),
 			}
 			key = `${guess.x}${guess.y}`
 		}

@@ -6,7 +6,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+		"lint": "npx prettier --config ./prettier.config.js ./src* --check",
+    "lint:fix": "npx prettier --config ./prettier.config.js ./src* --write"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -27,7 +29,9 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
-    "battleship-types": "^1.0.15"
+		"altheajs-prettier-config": "^1.1.4",
+    "battleship-types": "^1.0.15",
+    "prettier": "2.3.2"
   },
   "eslintConfig": {
     "extends": [

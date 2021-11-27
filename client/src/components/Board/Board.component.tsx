@@ -7,15 +7,15 @@ export enum EPointStatus {
 	Miss = 'Miss',
 	Ship = 'Ship',
 	Empty = 'Empty',
-	Sunk = 'Sunk'
+	Sunk = 'Sunk',
 }
 
 export type Location = {
-	x: number,
-	y: number,
+	x: number
+	y: number
 }
 
-type BoardSize = 'small' | "large" | "guessing" | "end"
+type BoardSize = 'small' | 'large' | 'guessing' | 'end'
 
 interface BoardProps {
 	size: BoardSize
@@ -26,48 +26,53 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
-	const { size, ocean, step, onPlaceShip, onGuess} = props
+	const { size, ocean, step, onPlaceShip, onGuess } = props
 
 	const handlePointClick = (point: IPoint): void => {
-		if (size === 'small' || size === "end") return
+		if (size === 'small' || size === 'end') return
 		if (step === EAppStep.Placing) onPlaceShip(point.location)
-		if (step === EAppStep.Guessing && (point.status === EPointStatus.Empty || point.status === EPointStatus.Ship)) onGuess(point.location)
+		if (
+			step === EAppStep.Guessing &&
+			(point.status === EPointStatus.Empty || point.status === EPointStatus.Ship)
+		)
+			onGuess(point.location)
 	}
 
-	return ocean && (
-		<table className={`board board-${size}`}>
-			<thead>
-				<tr>
-					<th />
-					<th>A</th>
-					<th>B</th>
-					<th>C</th>
-					<th>D</th>
-					<th>E</th>
-					<th>F</th>
-					<th>G</th>
-					<th>H</th>
-					<th>I</th>
-					<th>J</th>
-				</tr>
-			</thead>
-			<tbody>
-				{ocean.map((row: IPoint[], idx: number) => (
-					<tr key={`row-${idx + 1}`}>
-						<td className="board__header">{idx + 1}</td>
-						{row.map((point: IPoint) => (
-							<td
-								className="board__square"
-								key={`square-${point.location.x + point.location.y}`}
-								onClick={() => handlePointClick(point)}
-								data-status={point.status}
-							>
-							</td>
-						))}
+	return (
+		ocean && (
+			<table className={`board board-${size}`}>
+				<thead>
+					<tr>
+						<th />
+						<th>A</th>
+						<th>B</th>
+						<th>C</th>
+						<th>D</th>
+						<th>E</th>
+						<th>F</th>
+						<th>G</th>
+						<th>H</th>
+						<th>I</th>
+						<th>J</th>
 					</tr>
-				))}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{ocean.map((row: IPoint[], idx: number) => (
+						<tr key={`row-${idx + 1}`}>
+							<td className="board__header">{idx + 1}</td>
+							{row.map((point: IPoint) => (
+								<td
+									className="board__square"
+									key={`square-${point.location.x + point.location.y}`}
+									onClick={() => handlePointClick(point)}
+									data-status={point.status}
+								></td>
+							))}
+						</tr>
+					))}
+				</tbody>
+			</table>
+		)
 	)
 }
 

@@ -34,14 +34,16 @@ class Board implements IBoard {
 			for (let col = y; col < y + ship.size; col++) {
 				const point = this.ocean[x][col]
 				if (!point) throw new Error('Uh oh, ship cannot be placed out of bounds.')
-				if (point.status === EPointStatus.Ship) throw new Error('Uh oh, cannot place a ship on top of another ship.')
+				if (point.status === EPointStatus.Ship)
+					throw new Error('Uh oh, cannot place a ship on top of another ship.')
 			}
 		} else {
 			// walk vertically
 			for (let row = x; row < x + ship.size; row++) {
 				const point = this.ocean[row][y]
 				if (!point) throw new Error('Uh oh, ship cannot be placed out of bounds.')
-				if (point.status === EPointStatus.Ship) throw new Error('Uh oh, cannot place a ship on top of another ship.')
+				if (point.status === EPointStatus.Ship)
+					throw new Error('Uh oh, cannot place a ship on top of another ship.')
 			}
 		}
 

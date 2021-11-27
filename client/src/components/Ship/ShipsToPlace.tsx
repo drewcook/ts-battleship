@@ -3,16 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Ship.styles.css'
 
 export type ShipData = {
-	name: string,
-	size: number,
-	orientation: 'horizontal' | 'vertical',
+	name: string
+	size: number
+	orientation: 'horizontal' | 'vertical'
 }
 
 interface ShipsToPlaceProps {
-	ships: ShipData[];
-	activeShipToPlace: ShipData | null;
-	onShipClick(ship: ShipData): void;
-	onSwapOrientation(shp: ShipData): void;
+	ships: ShipData[]
+	activeShipToPlace: ShipData | null
+	onShipClick(ship: ShipData): void
+	onSwapOrientation(shp: ShipData): void
 }
 
 const ShipsToPlace = (props: ShipsToPlaceProps) => {

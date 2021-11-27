@@ -1,4 +1,4 @@
-import { IBoard, IGame, IPlayer, ITurn } from "battleship-types"
+import { IBoard, IGame, IPlayer, ITurn } from 'battleship-types'
 import Board from './Board'
 import Player from './Player'
 
@@ -30,7 +30,7 @@ class Game implements IGame {
 			id: this.turns.length++,
 			playerName,
 			guess,
-			result
+			result,
 		}
 		this.turns.push(incremented)
 		return this.turns

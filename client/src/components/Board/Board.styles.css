@@ -1,4 +1,3 @@
-
 .board {
 	border: 2px solid #ccc;
 	margin: 30px auto;
@@ -23,9 +22,9 @@
 	height: 40px;
 }
 
-.board-large .board__square[data-status="Empty"]:hover,
-.board-guessing .board__square[data-status="Empty"]:hover,
-.board-guessing .board__square[data-status="Ship"]:hover {
+.board-large .board__square[data-status='Empty']:hover,
+.board-guessing .board__square[data-status='Empty']:hover,
+.board-guessing .board__square[data-status='Ship']:hover {
 	opacity: 0.9;
 	cursor: pointer;
 }
@@ -45,23 +44,23 @@
 	font-size: 0.8rem;
 }
 
-.board__square[data-status="Empty"],
-.board-guessing .board__square[data-status="Ship"] {
+.board__square[data-status='Empty'],
+.board-guessing .board__square[data-status='Ship'] {
 	background: #61bdf3;
 }
 
-.board__square[data-status="Ship"] {
+.board__square[data-status='Ship'] {
 	background: #184a67;
 }
 
-.board__square[data-status="Miss"] {
+.board__square[data-status='Miss'] {
 	background: #848482;
 }
 
-.board__square[data-status="Hit"] {
+.board__square[data-status='Hit'] {
 	background: #a55b07;
 }
 
-.board__square[data-status="Sunk"] {
+.board__square[data-status='Sunk'] {
 	background: #6c0f0f;
 }

@@ -61,7 +61,6 @@ class Ship implements IShip {
 	public sink(): void {
 		this.spacesOccupied.forEach(point => point.updateStatus(EPointStatus.Sunk))
 	}
-
 }
 
 export default Ship

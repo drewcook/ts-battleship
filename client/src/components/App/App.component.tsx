@@ -11,12 +11,17 @@ const initialShipsToPlace: ShipData[] = [
 	{ size: 3, name: 'Cruiser', orientation: 'horizontal' },
 	{ size: 4, name: 'Battleship', orientation: 'horizontal' },
 	{ size: 5, name: 'Carrier', orientation: 'horizontal' },
-];
+]
 
-export enum EAppStep { Intro, Placing, Guessing, Ending }
+export enum EAppStep {
+	Intro,
+	Placing,
+	Guessing,
+	Ending,
+}
 
 const App = () => {
-	const [ctaText, setCtaText] = useState('Let\'s start playing!')
+	const [ctaText, setCtaText] = useState("Let's start playing!")
 	const [shipsPlaced, setShipsPlaced] = useState(false)
 	const [boardData, setBoardData] = useState<IPoint[][] | null>(null)
 	const [oppBoardData, setOppBoardData] = useState<IPoint[][] | null>(null)
@@ -55,7 +60,7 @@ const App = () => {
 		setShipsToPlace(initialShipsToPlace)
 
 		// set step
-		setCtaText('Let\'s start playing!')
+		setCtaText("Let's start playing!")
 		setStep(EAppStep.Intro)
 	}
 
@@ -98,7 +103,7 @@ const App = () => {
 			const res = await get('/boards')
 			setBoardData(res.playerBoard)
 			setShipsPlaced(true)
-				setCtaText('Great! Now it\'s time to search for your opponents ships.')
+			setCtaText("Great! Now it's time to search for your opponents ships.")
 		} catch (ex: any) {
 			console.error('Exception occurred handleAutoplace()', ex)
 		}
@@ -108,7 +113,7 @@ const App = () => {
 		try {
 			setPlacementError(null)
 			if (!activeShipBeingPlaced) return
-			await post('/player/place', { ship: activeShipBeingPlaced, location: location})
+			await post('/player/place', { ship: activeShipBeingPlaced, location: location })
 
 			// Update board
 			const res = await get('/boards')
@@ -122,7 +127,7 @@ const App = () => {
 			// All ships have been placed, start guessing
 			if (shipsLeftToPlace.length === 0) {
 				setShipsPlaced(true)
-				setCtaText('Great! Now it\'s time to search for your opponents ships.')
+				setCtaText("Great! Now it's time to search for your opponents ships.")
 			}
 		} catch (ex: any) {
 			setPlacementError(ex.response.data.error)
@@ -196,14 +201,12 @@ const App = () => {
 					{step === EAppStep.Placing && (
 						<>
 							{placementError && <p className="error-msg">{placementError}</p>}
-							{shipsPlaced
-								? (
-									<button className="btn" onClick={startGuessing}>
-										Let's Go!
-									</button>
-								)
-								: (
-									<>
+							{shipsPlaced ? (
+								<button className="btn" onClick={startGuessing}>
+									Let's Go!
+								</button>
+							) : (
+								<>
 									<button className="btn" onClick={handleAutoplace}>
 										Autoplace
 									</button>
@@ -213,9 +216,8 @@ const App = () => {
 										onShipClick={handleShipClick}
 										onSwapOrientation={handleSwapShipOrientation}
 									/>
-									</>
-								)
-							}
+								</>
+							)}
 							<Board
 								size="large"
 								ocean={boardData}
@@ -229,20 +231,17 @@ const App = () => {
 						<div className="grid">
 							<div className="col col-3">
 								<h5>Your Board</h5>
-								{computerThinking
-									? (
-										<p>Computer thinking...</p>
-									)
-									: (
-										<Board
-											size="small"
-											ocean={boardData}
-											step={step}
-											onPlaceShip={handlePlaceShipOnBoard}
-											onGuess={handleGuess}
-										/>
-									)
-								}
+								{computerThinking ? (
+									<p>Computer thinking...</p>
+								) : (
+									<Board
+										size="small"
+										ocean={boardData}
+										step={step}
+										onPlaceShip={handlePlaceShipOnBoard}
+										onGuess={handleGuess}
+									/>
+								)}
 								{/* <p>Ships Sunk: 0</p> */}
 							</div>
 							<div className="col col-9">

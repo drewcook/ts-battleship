@@ -15,7 +15,6 @@ const autoFleetLocations: Location[] = [
 	{ x: 4, y: 0 }, // Carrier
 ]
 
-
 // TODO: have moves return IBoard so it can easily be updated from UI
 router.post('/game/start', async (ctx, next) => {
 	try {
@@ -137,7 +136,7 @@ router.post('/opponent/guess', async (ctx, next) => {
 		// Guess a random location on the players board
 		const location: Location = {
 			x: Math.floor(Math.random() * 10),
-			y: Math.floor(Math.random() * 10)
+			y: Math.floor(Math.random() * 10),
 		}
 
 		// Make a guess and create a turn
