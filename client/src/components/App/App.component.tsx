@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { get, post } from '../../api'
 import Board, { Location } from '../Board/Board.component'
 import ShipsToPlace, { ShipData } from '../Ship/ShipsToPlace'
+import TurnsTable from '../TurnsTable/TurnsTable.component'
 import './App.styles.css'
 
 const initialShipsToPlace: ShipData[] = [
@@ -30,9 +31,9 @@ const App = () => {
 	const [activeShipBeingPlaced, setActiveShipBeingPlaced] = useState<ShipData | null>(null)
 	const [shipsToPlace, setShipsToPlace] = useState<ShipData[]>(initialShipsToPlace)
 	const [placementError, setPlacementError] = useState(null)
-	const [guessResult, setGuessResult] = useState(null)
 	const [guessError, setGuessError] = useState(null)
 	const [step, setStep] = useState<EAppStep>(EAppStep.Intro)
+	const [gameTurns, setGameTurns] = useState([])
 	const [computerThinking, setComputerThinking] = useState(false)
 	const [winner, setWinner] = useState<string | null>(null)
 
@@ -56,8 +57,8 @@ const App = () => {
 		setShipsPlaced(false)
 		setActiveShipBeingPlaced(null)
 		setPlacementError(null)
-		setGuessResult(null)
 		setGuessError(null)
+		setGameTurns([])
 		setWinner(null)
 		setShipsToPlace(initialShipsToPlace)
 
@@ -151,10 +152,9 @@ const App = () => {
 	const handleGuess = async (loc: Location): Promise<void> => {
 		try {
 			setGuessError(null)
-			setGuessResult(null)
 			const res = await post('/player/guess', loc)
+			setGameTurns(res.gameTurns)
 			// Update UI based off of result
-			setGuessResult(res.lastTurn.result)
 			displayBoards()
 
 			if (res.gameOver) {
@@ -166,6 +166,7 @@ const App = () => {
 				setComputerThinking(true)
 				setTimeout(async () => {
 					const res = await post('/opponent/guess')
+					setGameTurns(res.gameTurns)
 					setComputerThinking(false)
 					displayBoards()
 
@@ -195,14 +196,17 @@ const App = () => {
 			</header>
 			<main className="app-content">
 				<div className="container">
-					<h3>{ctaText}</h3>
 					{step === EAppStep.Intro && (
-						<button className="btn success" onClick={playGame}>
-							Start Game
-						</button>
+						<>
+							<h3>{ctaText}</h3>
+							<button className="btn success" onClick={playGame}>
+								Start Game
+							</button>
+						</>
 					)}
 					{step === EAppStep.Placing && (
 						<>
+							<h3>{ctaText}</h3>
 							{placementError && <p className="error-msg">{placementError}</p>}
 							{shipsPlaced ? (
 								<>
@@ -238,9 +242,8 @@ const App = () => {
 					)}
 					{step === EAppStep.Guessing && (
 						<div className="grid">
-							<div className="col col-3">
+							<div className="col col-8">
 								<h5>Your Fleet</h5>
-								<h6>Ships Sunk: 0</h6>
 								<Board
 									whoIs="player"
 									size="small"
@@ -249,12 +252,7 @@ const App = () => {
 									onPlaceShip={handlePlaceShipOnBoard}
 									onGuess={handleGuess}
 								/>
-								{computerThinking && <p>Computer thinking...</p>}
-							</div>
-							<div className="col col-9">
-								{guessError && <p className="error-msg">{guessError}</p>}
 								<h5>Opponent's Ocean</h5>
-								<h6>Last Result: {guessResult || 'N/A'}</h6>
 								<Board
 									whoIs="opponent"
 									size="guessing"
@@ -264,13 +262,20 @@ const App = () => {
 									onGuess={handleGuess}
 								/>
 							</div>
+							<div className="col col-4">
+								<div className='status-box'>
+									<h3>{ctaText}</h3>
+									{computerThinking ? <p>Computer thinking...</p> : <p>Your turn!</p>}
+									{guessError ? <p className="error-msg">{guessError}</p> : <p />}
+								</div>
+								<TurnsTable turns={gameTurns} />
+							</div>
 						</div>
 					)}
 					{step === EAppStep.Ending && (
 						<>
-							<p>{winner} has won the game!</p>
 							<div className="grid">
-								<div className="col col-6">
+								<div className="col col-8">
 									<h4>Your Fleet</h4>
 									<Board
 										whoIs="player"
@@ -280,9 +285,7 @@ const App = () => {
 										onPlaceShip={handlePlaceShipOnBoard}
 										onGuess={handleGuess}
 									/>
-								</div>
-								<div className="col col-6">
-									<h4>Opponent's Fleet</h4>
+									<h4>Opponent's Ocean</h4>
 									<Board
 										whoIs="opponent"
 										size="end"
@@ -291,6 +294,16 @@ const App = () => {
 										onPlaceShip={handlePlaceShipOnBoard}
 										onGuess={handleGuess}
 									/>
+								</div>
+								<div className="col col-4">
+									<div className="status-box">
+										<h3>{ctaText}</h3>
+										<p>{winner} has won the game!</p>
+										<button className="btn success" onClick={quitGame}>
+											Play Again
+										</button>
+									</div>
+									<TurnsTable turns={gameTurns} />
 								</div>
 							</div>
 						</>

@@ -92,7 +92,6 @@ class Player implements IPlayer {
 		if (point.status === EPointStatus.Empty) {
 			// update point on the board
 			point.updateStatus(EPointStatus.Miss)
-			console.info('Miss!')
 			return EPointStatus.Miss
 		}
 
@@ -100,7 +99,6 @@ class Player implements IPlayer {
 		if (point.status === EPointStatus.Ship) {
 			// update point on the board
 			point.updateStatus(EPointStatus.Hit)
-			console.info('Hit!')
 
 			// update point on the ship
 			// Alternatively, keep a list of occupied spaces and cycle through those for a match

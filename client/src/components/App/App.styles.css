@@ -123,3 +123,12 @@
 	flex-basis: 75%;
 	max-width: 75%;
 }
+
+/* Other */
+
+.status-box {
+	border: 3px solid #ccc;
+	border-radius: 8px;
+	padding: 15px;
+	margin-bottom: 30px;
+}

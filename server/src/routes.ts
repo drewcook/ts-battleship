@@ -62,7 +62,6 @@ router.post('/player/place', async (ctx, next) => {
 		if (auto) {
 			game?.player.board.clearBoard()
 			getRandomPlacement().forEach(({ship, startingLocation}) => {
-				console.log('Autoplacing...', ship.name)
 				game?.player.placeShip(ship, startingLocation)
 			})
 		} else {
@@ -93,11 +92,13 @@ router.post('/player/guess', async (ctx, next) => {
 			ctx.body = {
 				gameOver: true,
 				lastTurn: playerTurn,
+				gameTurns,
 			}
 		} else {
 			ctx.body = {
 				gameOver: false,
 				lastTurn: playerTurn,
+				gameTurns,
 			}
 		}
 		ctx.status = HttpStatus.OK
@@ -114,7 +115,6 @@ router.post('/opponent/place', async (ctx, next) => {
 
 		// Create opponent's board from auto-placement
 		getRandomPlacement().forEach(({ship, startingLocation}) => {
-			console.log('Autoplacing...', ship.name)
 			game?.opponent.placeShip(ship, startingLocation)
 		})
 
@@ -147,11 +147,13 @@ router.post('/opponent/guess', async (ctx, next) => {
 			ctx.body = {
 				gameOver: true,
 				lastTurn: opponentTurn,
+				gameTurns,
 			}
 		} else {
 			ctx.body = {
 				gameOver: false,
 				lastTurn: opponentTurn,
+				gameTurns,
 			}
 		}
 		ctx.status = HttpStatus.OK

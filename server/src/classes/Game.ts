@@ -27,7 +27,7 @@ class Game implements IGame {
 		// Increment turn id, 1-based
 		const { playerName, guess, result } = turn
 		let incremented = {
-			id: this.turns.length++,
+			id: this.turns.length + 1,
 			playerName,
 			guess,
 			result,

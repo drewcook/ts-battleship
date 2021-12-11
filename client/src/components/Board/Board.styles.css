@@ -1,10 +1,11 @@
 .board {
-	border: 2px solid #ccc;
 	margin: 30px auto;
+	border-radius: 8px;
+	overflow: hidden;
+	border-collapse: collapse;
 }
 
 .board__square {
-	border: 1px solid #ccc;
 	background: #ccc;
 	padding: 5px;
 	text-align: center;
@@ -23,8 +24,8 @@
 }
 
 .board-end .board__square {
-	width: 20px;
-	height: 20px;
+	width: 25px;
+	height: 25px;
 }
 
 .board-small .board__header,
@@ -41,6 +42,12 @@
 
 .player-board .board__square {
 	opacity: 0.7;
+	border: 1px solid #aaa;
+}
+
+.player-board .board-small .board__square {
+	opacity: 0.7;
+	border: 0.5px solid #aaa;
 }
 
 .player-board .board__square[data-status="Empty"] {
@@ -83,20 +90,21 @@
 
 .opponent-board .board__square {
 	opacity: 0;
+	border: 1px solid #555;
 }
 
 .opponent-board .board__square[data-status='Miss'] {
-	opacity: 0.7;
+	opacity: 0.8;
 	background: #848482;
 }
 
 .opponent-board .board__square[data-status='Hit'] {
-	opacity: 0.7;
+	opacity: 0.8;
 	background: #e3a702;
 }
 
 .opponent-board .board__square[data-status='Sunk'] {
-	opacity: 0.7;
+	opacity: 0.8;
 	background: #d41f1f;
 }
 
@@ -110,7 +118,7 @@
 .opponent-board .board-guessing .board__square[data-status='Empty']:hover,
 .opponent-board .board-guessing .board__square[data-status='Empty']:hover,
 .opponent-board .board-guessing .board__square[data-status='Ship']:hover {
-	opacity: 0.6;
+	opacity: 0.7;
 	background: #fff;
 	cursor: pointer;
 }
