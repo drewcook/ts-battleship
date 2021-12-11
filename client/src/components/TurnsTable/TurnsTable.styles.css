@@ -1,3 +1,7 @@
+.turns-table {
+	text-align: center;
+}
+
 .turns-table h4 {
 	margin: 0 0 15px;
 }
@@ -10,7 +14,7 @@
 /* Table */
 .turns-table .table-wrapper {
 	overflow-y: auto;
-	height: 700px;
+	height: 620px;
 	border: 1px solid #ccc;
 	border-radius: 8px;
 }
@@ -36,6 +40,7 @@
 .turns-table table td {
 	border: 1px solid #ccc;
 	padding: 5px;
+	text-align: center;
 }
 
 .turns-table table td {

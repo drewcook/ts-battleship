@@ -1,4 +1,4 @@
-import { faArrowsAltH, faArrowsAltV } from '@fortawesome/free-solid-svg-icons'
+import { faRedo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Ship.styles.css'
 
@@ -21,12 +21,12 @@ const ShipsToPlace = (props: ShipsToPlaceProps) => {
 	return (
 		<div className="ships-group">
 			{ships.map(s => (
-				<div key={s.name} className={s === activeShipToPlace ? 'ship active-placing' : 'ship'}>
+				<div key={s.name} className={s === activeShipToPlace ? 'ship active-placing' : 'ship'} data-shipblocks={s.name}>
 					<p className="ship-header">
 						{s.name}
 						<button onClick={() => onSwapOrientation(s)}>
 							<FontAwesomeIcon
-								icon={s.orientation === 'horizontal' ? faArrowsAltV : faArrowsAltH}
+								icon={faRedo}
 							/>
 						</button>
 					</p>

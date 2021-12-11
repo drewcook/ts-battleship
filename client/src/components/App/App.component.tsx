@@ -21,10 +21,11 @@ export enum EAppStep {
 	Placing,
 	Guessing,
 	Ending,
+	HighScores,
 }
 
 const App = () => {
-	const [ctaText, setCtaText] = useState("Let's start playing!")
+	const [ctaText, setCtaText] = useState("Main Menu")
 	const [shipsPlaced, setShipsPlaced] = useState(false)
 	const [playerBoardData, setPlayerBoardData] = useState<IPoint[][] | null>(null)
 	const [oppBoardData, setOppBoardData] = useState<IPoint[][] | null>(null)
@@ -43,28 +44,46 @@ const App = () => {
 			displayBoards()
 			setStep(EAppStep.Placing)
 			setCtaText('Place your ships onto the board.')
-		} catch (ex) {
-			console.error('Exception occurred', ex)
+		} catch (ex: any) {
+			console.error('Exception occurred playGame()', ex)
 		}
 	}
 
 	const quitGame = async (): Promise<void> => {
-		// reset backend
-		await post('/game/quit')
+		try {
+			// reset backend
+			await post('/game/quit')
 
-		// reset UI
-		setPlayerBoardData(null)
-		setShipsPlaced(false)
-		setActiveShipBeingPlaced(null)
-		setPlacementError(null)
-		setGuessError(null)
-		setGameTurns([])
-		setWinner(null)
-		setShipsToPlace(initialShipsToPlace)
+			// reset UI
+			setPlayerBoardData(null)
+			setShipsPlaced(false)
+			setActiveShipBeingPlaced(null)
+			setPlacementError(null)
+			setGuessError(null)
+			setGameTurns([])
+			setWinner(null)
+			setShipsToPlace(initialShipsToPlace)
 
-		// set step
-		setCtaText("Let's start playing!")
-		setStep(EAppStep.Intro)
+			// set step
+			setCtaText("Main Menu")
+			setStep(EAppStep.Intro)
+		} catch (ex: any) {
+			console.error('Exception occurred quitGame()', ex)
+		}
+	}
+
+	const viewHighScores = async (): Promise<void> => {
+		try {
+			// TODO: Fetch High scores...
+			// const res = await get('/game/highscores')
+			// const setHighScores(res.highScores)
+
+			// set step
+			setCtaText('High Scores')
+			setStep(EAppStep.HighScores)
+		} catch (ex: any) {
+			console.error('Exception occurred viewHighScores()', ex)
+		}
 	}
 
 	const displayBoards = async (): Promise<void> => {
@@ -72,8 +91,8 @@ const App = () => {
 			const res = await get('/boards')
 			setPlayerBoardData(res.playerBoard)
 			setOppBoardData(res.opponentBoard)
-		} catch (ex) {
-			console.error('Exception occurred', ex)
+		} catch (ex: any) {
+			console.error('Exception occurred displayBoards()', ex)
 		}
 	}
 
@@ -106,9 +125,27 @@ const App = () => {
 			const res = await get('/boards')
 			setPlayerBoardData(res.playerBoard)
 			setShipsPlaced(true)
-			setCtaText("Ships have been auto-placed. Are you happy with your board?")
+			setCtaText("Ships have been automatically placed on the board. Are you happy with your fleet?")
 		} catch (ex: any) {
 			console.error('Exception occurred handleAutoplace()', ex)
+		}
+	}
+
+	const handleManualPlaceReset = async(): Promise<void> => {
+		try {
+			// reset backend
+			await post('/game/quit')
+			await post('/game/start')
+
+			// reset UI
+			displayBoards()
+			setShipsToPlace(initialShipsToPlace)
+			setShipsPlaced(false)
+			setActiveShipBeingPlaced(null)
+			setPlacementError(null)
+			setCtaText('Place your ships onto the board.')
+		} catch (ex: any) {
+			console.error('Exception occurred handleManualPlaceReset()', ex)
 		}
 	}
 
@@ -182,63 +219,111 @@ const App = () => {
 		}
 	}
 
+	if (step === EAppStep.Intro) {
+		return (
+			<div className="app main-menu">
+				<div className="container">
+					<div className="welcome-box">
+						<h1>The Game of Battleship!</h1>
+						<h3>{ctaText}</h3>
+						<button className="btn" onClick={playGame}>
+							Start New Game
+						</button>
+						<button className="btn" onClick={viewHighScores}>
+							High Scores
+						</button>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+	if (step === EAppStep.HighScores) {
+		return (
+			<div className="app high-scores">
+				<h1>High Scores</h1>
+				<button className="btn info" onClick={quitGame}>
+					Back to Menu
+				</button>
+				<h3>{ctaText}</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Player</th>
+							<th>Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Player/opponent</td>
+							<td>100 moves</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		)
+	}
+
 	return (
 		<div className="app">
 			<header className="app-header">
 				<div className="container">
 					<h1>The Game of Battleship!</h1>
-					{step !== EAppStep.Intro && (
-						<button className="btn quitGameBtn danger" onClick={quitGame}>
-							Quit Game
-						</button>
-					)}
+					<button className="btn quitGameBtn danger" onClick={quitGame}>
+						Quit Game
+					</button>
 				</div>
 			</header>
 			<main className="app-content">
 				<div className="container">
-					{step === EAppStep.Intro && (
-						<>
-							<h3>{ctaText}</h3>
-							<button className="btn success" onClick={playGame}>
-								Start Game
-							</button>
-						</>
-					)}
 					{step === EAppStep.Placing && (
-						<>
-							<h3>{ctaText}</h3>
-							{placementError && <p className="error-msg">{placementError}</p>}
-							{shipsPlaced ? (
-								<>
-									<button className="btn success" onClick={startGuessing}>
-										Yes <FontAwesomeIcon icon={faCheck} />
+						<div className="grid">
+							<div className="col col-8">
+								<Board
+									whoIs="player"
+									size="large"
+									ocean={playerBoardData}
+									step={step}
+									onPlaceShip={handlePlaceShipOnBoard}
+									onGuess={handleGuess}
+								/>
+							</div>
+							<div className="col col-4">
+								<div className="status-box">
+									<h3>{ctaText}</h3>
+									{placementError && <p className="error-msg">{placementError}</p>}
+									{shipsPlaced ? (
+										<>
+											<button className="btn success" onClick={startGuessing}>
+												Yes <FontAwesomeIcon icon={faCheck} />
+											</button>
+											<button className="btn info" onClick={handleAutoplace}>
+												No <FontAwesomeIcon icon={faRedo} />
+											</button>
+										</>
+									) : (
+										<>
+											<p>Select your ship below to place. Click on the board to place it. Use the arrows button to rotate the orientation. Or you may autoplace them.</p>
+											<button className="btn" onClick={handleAutoplace}>
+												Autoplace
+											</button>
+										</>
+									)}
+								</div>
+								{shipsPlaced ? (
+									<button className="btn" onClick={handleManualPlaceReset}>
+										Manually Place Instead
 									</button>
-									<button className="btn info" onClick={handleAutoplace}>
-										No <FontAwesomeIcon icon={faRedo} />
-									</button>
-								</>
-							) : (
-								<>
-									<button className="btn" onClick={handleAutoplace}>
-										Autoplace
-									</button>
-									<ShipsToPlace
-										ships={shipsToPlace}
-										activeShipToPlace={activeShipBeingPlaced}
-										onShipClick={handleShipClick}
-										onSwapOrientation={handleSwapShipOrientation}
-									/>
-								</>
-							)}
-							<Board
-								whoIs="player"
-								size="large"
-								ocean={playerBoardData}
-								step={step}
-								onPlaceShip={handlePlaceShipOnBoard}
-								onGuess={handleGuess}
-							/>
-						</>
+									) : (
+										<ShipsToPlace
+											ships={shipsToPlace}
+											activeShipToPlace={activeShipBeingPlaced}
+											onShipClick={handleShipClick}
+											onSwapOrientation={handleSwapShipOrientation}
+										/>
+								)}
+							</div>
+						</div>
 					)}
 					{step === EAppStep.Guessing && (
 						<div className="grid">
