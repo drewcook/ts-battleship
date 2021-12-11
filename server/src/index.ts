@@ -8,16 +8,22 @@ import router from './routes'
 
 const app = new Koa()
 const PORT = process.env.PORT || 3000
+const isProduction: boolean = process.env['NODE_ENV'] === 'production'
 
 // Middleware
 app.use(BodyParser())
 app.use(Logger())
 app.use(cors())
 
-// Serve static client app
-const static_pages = new Koa()
-static_pages.use(serve(__dirname + '/../../client/build'))
-app.use(mount('/', static_pages))
+// Production Workflow
+if (isProduction) {
+	console.info('Running production workflow...')
+	// Serve static client app
+	console.info('Building client app...')
+	const static_pages = new Koa()
+	static_pages.use(serve(__dirname + '/../../client/build'))
+	app.use(mount('/', static_pages))
+}
 
 // Setup routes
 app.use(router.routes()).use(router.allowedMethods())
