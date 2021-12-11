@@ -1,6 +1,6 @@
 import { faCheck, faRedo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import type { IPoint } from 'battleship-types'
+import { IPoint, ITurn } from 'battleship-types'
 import { useState } from 'react'
 import { get, post } from '../../api'
 import Board, { Location } from '../Board/Board.component'
@@ -34,7 +34,7 @@ const App = () => {
 	const [placementError, setPlacementError] = useState(null)
 	const [guessError, setGuessError] = useState(null)
 	const [step, setStep] = useState<EAppStep>(EAppStep.Intro)
-	const [gameTurns, setGameTurns] = useState([])
+	const [gameTurns, setGameTurns] = useState<ITurn[]>([])
 	const [computerThinking, setComputerThinking] = useState(false)
 	const [winner, setWinner] = useState<string | null>(null)
 
@@ -219,6 +219,12 @@ const App = () => {
 		}
 	}
 
+	const enterHighScore = () => {
+		const guesses = gameTurns.filter(turn => turn.playerName === 'Player').length
+		console.log('enter high score...', guesses)
+		// TODO: write form or automatically add it to HS database
+	}
+
 	if (step === EAppStep.Intro) {
 		return (
 			<div className="app main-menu">
@@ -386,6 +392,9 @@ const App = () => {
 										<p>{winner} has won the game!</p>
 										<button className="btn success" onClick={quitGame}>
 											Play Again
+										</button>
+										<button className="btn info" onClick={enterHighScore}>
+											Enter High Score
 										</button>
 									</div>
 									<TurnsTable turns={gameTurns} />
