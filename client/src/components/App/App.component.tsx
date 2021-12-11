@@ -227,6 +227,7 @@ const App = () => {
 								</>
 							)}
 							<Board
+								whoIs="player"
 								size="large"
 								ocean={playerBoardData}
 								step={step}
@@ -241,6 +242,7 @@ const App = () => {
 								<h5>Your Fleet</h5>
 								<h6>Ships Sunk: 0</h6>
 								<Board
+									whoIs="player"
 									size="small"
 									ocean={playerBoardData}
 									step={step}
@@ -254,6 +256,7 @@ const App = () => {
 								<h5>Opponent's Ocean</h5>
 								<h6>Last Result: {guessResult || 'N/A'}</h6>
 								<Board
+									whoIs="opponent"
 									size="guessing"
 									ocean={oppBoardData}
 									step={step}
@@ -268,8 +271,9 @@ const App = () => {
 							<p>{winner} has won the game!</p>
 							<div className="grid">
 								<div className="col col-6">
-									<h4>Opponent's Board</h4>
+									<h4>Your Fleet</h4>
 									<Board
+										whoIs="player"
 										size="end"
 										ocean={playerBoardData}
 										step={step}
@@ -278,8 +282,9 @@ const App = () => {
 									/>
 								</div>
 								<div className="col col-6">
-									<h4>Your Board</h4>
+									<h4>Opponent's Fleet</h4>
 									<Board
+										whoIs="opponent"
 										size="end"
 										ocean={oppBoardData}
 										step={step}

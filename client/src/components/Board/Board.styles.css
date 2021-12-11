@@ -22,26 +22,35 @@
 	height: 40px;
 }
 
-.board-large .board__square[data-status='Empty']:hover,
-.board-guessing .board__square[data-status='Empty']:hover,
-.board-guessing .board__square[data-status='Ship']:hover {
-	opacity: 0.9;
-	cursor: pointer;
-}
-
 .board-end .board__square {
 	width: 20px;
 	height: 20px;
 }
 
-.board-end .board__square:hover {
-	opacity: 1;
-	cursor: unset;
-}
-
 .board-small .board__header,
 .board-small th {
 	font-size: 0.8rem;
+}
+
+/* Player Board */
+.player-board table {
+	background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('../../images/ocean.jpg');
+	background-size: contain;
+	background-position: center center;
+}
+
+.player-board .board__square {
+	opacity: 0.7;
+}
+
+.player-board .board__square[data-status="Empty"] {
+	opacity: 0.4;
+}
+
+.player-board .board-large .board__square[data-status="Empty"]:hover {
+	cursor: pointer;
+	background: #fff;
+	opacity: 0.6;
 }
 
 .board__square[data-status='Empty'],
@@ -58,9 +67,58 @@
 }
 
 .board__square[data-status='Hit'] {
-	background: #a55b07;
+	background: #e3a702;
 }
 
 .board__square[data-status='Sunk'] {
-	background: #6c0f0f;
+	background: #d41f1f;
+}
+
+/* Opponent Board */
+.opponent-board table {
+	background-image: url('../../images/radar.jpg');
+	background-size: contain;
+	background-position: center center;
+}
+
+.opponent-board .board__square {
+	opacity: 0;
+}
+
+.opponent-board .board__square[data-status='Miss'] {
+	opacity: 0.7;
+	background: #848482;
+}
+
+.opponent-board .board__square[data-status='Hit'] {
+	opacity: 0.7;
+	background: #e3a702;
+}
+
+.opponent-board .board__square[data-status='Sunk'] {
+	opacity: 0.7;
+	background: #d41f1f;
+}
+
+.opponent-board .board-end .board__square[data-status='Miss'],
+.opponent-board .board-end .board__square[data-status='Hit'],
+.opponent-board .board-end .board__square[data-status='Sunk'] {
+	opacity: 0.7;
+	cursor: unset;
+}
+
+.opponent-board .board-guessing .board__square[data-status='Empty']:hover,
+.opponent-board .board-guessing .board__square[data-status='Empty']:hover,
+.opponent-board .board-guessing .board__square[data-status='Ship']:hover {
+	opacity: 0.6;
+	background: #fff;
+	cursor: pointer;
+}
+
+.opponent-board .board-end .board__square:hover {
+	cursor: unset;
+}
+
+.opponent-board .board-end .board__square[data-status="Empty"]:hover {
+	opacity: 0;
 }

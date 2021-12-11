@@ -18,6 +18,7 @@ export type Location = {
 type BoardSize = 'small' | 'large' | 'guessing' | 'end'
 
 interface BoardProps {
+	whoIs: 'player' | 'opponent',
 	size: BoardSize
 	ocean: IPoint[][] | null
 	step: EAppStep
@@ -26,7 +27,7 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
-	const { size, ocean, step, onPlaceShip, onGuess } = props
+	const { whoIs, size, ocean, step, onPlaceShip, onGuess } = props
 
 	const handlePointClick = (point: IPoint): void => {
 		if (size === 'small' || size === 'end') return
@@ -40,38 +41,40 @@ const Board = (props: BoardProps) => {
 
 	return (
 		ocean && (
-			<table className={`board board-${size}`}>
-				<thead>
-					<tr>
-						<th />
-						<th>A</th>
-						<th>B</th>
-						<th>C</th>
-						<th>D</th>
-						<th>E</th>
-						<th>F</th>
-						<th>G</th>
-						<th>H</th>
-						<th>I</th>
-						<th>J</th>
-					</tr>
-				</thead>
-				<tbody>
-					{ocean.map((row: IPoint[], idx: number) => (
-						<tr key={`row-${idx + 1}`}>
-							<td className="board__header">{idx + 1}</td>
-							{row.map((point: IPoint) => (
-								<td
-									className="board__square"
-									key={`square-${point.location.x + point.location.y}`}
-									onClick={() => handlePointClick(point)}
-									data-status={point.status}
-								></td>
-							))}
-						</tr>
-					))}
-				</tbody>
-			</table>
+			<div className={`${whoIs}-board`}>
+				<table className={`board board-${size}`}>
+					<thead>
+						{/* <tr>
+							<th />
+							<th>A</th>
+							<th>B</th>
+							<th>C</th>
+							<th>D</th>
+							<th>E</th>
+							<th>F</th>
+							<th>G</th>
+							<th>H</th>
+							<th>I</th>
+							<th>J</th>
+						</tr> */}
+					</thead>
+					<tbody>
+						{ocean.map((row: IPoint[], idx: number) => (
+							<tr key={`row-${idx + 1}`}>
+								{/* <td className="board__header">{idx + 1}</td> */}
+								{row.map((point: IPoint) => (
+									<td
+										className="board__square"
+										key={`square-${point.location.x + point.location.y}`}
+										onClick={() => handlePointClick(point)}
+										data-status={point.status}
+									></td>
+								))}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
 		)
 	)
 }
