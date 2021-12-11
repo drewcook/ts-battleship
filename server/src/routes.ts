@@ -1,19 +1,13 @@
-import { IGame, ITurn, Location } from 'battleship-types'
+import type { IGame, ITurn, Location } from 'battleship-types'
 import HttpStatus from 'http-status'
 import Router from 'koa-router'
 import Game from './classes/Game'
+import { getRandomPlacement } from './utils/autoplaceShips'
 
 const router = new Router()
 
 let game: IGame | null
-// TODO: have a list of sets of random placements and pick a random index from it to start
-const autoFleetLocations: Location[] = [
-	{ x: 0, y: 0 }, // Destroyer
-	{ x: 1, y: 0 }, // Submarine
-	{ x: 2, y: 0 }, // Cruiser
-	{ x: 3, y: 0 }, // Battleship
-	{ x: 4, y: 0 }, // Carrier
-]
+
 
 // TODO: have moves return IBoard so it can easily be updated from UI
 router.post('/game/start', async (ctx, next) => {
@@ -66,8 +60,10 @@ router.post('/player/place', async (ctx, next) => {
 
 		// Autoplace if applicable
 		if (auto) {
-			game.player.fleet.forEach((vessel, idx) => {
-				game?.player.placeShip(vessel, autoFleetLocations[idx])
+			game?.player.board.clearBoard()
+			getRandomPlacement().forEach(({ship, startingLocation}) => {
+				console.log('Autoplacing...', ship.name)
+				game?.player.placeShip(ship, startingLocation)
 			})
 		} else {
 			game.player.placeShip(ship, location)
@@ -116,9 +112,10 @@ router.post('/opponent/place', async (ctx, next) => {
 	try {
 		if (!game) return
 
-		// Place each ship from default fleet
-		game.opponent.fleet.forEach((ship, idx) => {
-			game?.opponent.placeShip(ship, autoFleetLocations[idx])
+		// Create opponent's board from auto-placement
+		getRandomPlacement().forEach(({ship, startingLocation}) => {
+			console.log('Autoplacing...', ship.name)
+			game?.opponent.placeShip(ship, startingLocation)
 		})
 
 		ctx.status = HttpStatus.OK

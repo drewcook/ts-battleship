@@ -30,7 +30,7 @@
   },
   "devDependencies": {
 		"altheajs-prettier-config": "^1.1.4",
-    "battleship-types": "^1.0.15",
+    "battleship-types": "^1.0.17",
     "prettier": "2.3.2"
   },
   "eslintConfig": {

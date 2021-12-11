@@ -2881,10 +2881,10 @@
   "resolved" "https://registry.npmjs.org/batch/-/batch-0.6.1.tgz"
   "version" "0.6.1"
 
-"battleship-types@^1.0.15":
-  "integrity" "sha512-N0HzUCGthlRld9SPDIx2dmo4TgyUZ08niai6bPTjvOOqwON0bJnxc9sthpEeH1V+sAvG+tYpHC7GT3PM9eJM5g=="
-  "resolved" "https://registry.npmjs.org/battleship-types/-/battleship-types-1.0.15.tgz"
-  "version" "1.0.15"
+"battleship-types@^1.0.17":
+  "integrity" "sha512-iWS4/VKCN5uVeWArOPP1/VL8j/8izRe23tD7EkA3sI/hB5E87cmgCM9uviSe1O6Bl9i/yTXS2WUzDqmEBu6rWw=="
+  "resolved" "https://registry.npmjs.org/battleship-types/-/battleship-types-1.0.17.tgz"
+  "version" "1.0.17"
   dependencies:
     "typescript" "^4.5.2"
 

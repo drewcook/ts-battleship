@@ -45,22 +45,38 @@
 	border: none;
 	border-radius: 3px;
 	padding: 10px 15px;
-	background-color: #1a971c;
-	color: #fff;
 	text-transform: uppercase;
 	font-weight: bold;
 	cursor: pointer;
+	background-color: #333;
+	color: #efefef;
+	margin: 5px;
 }
 
 .btn:hover {
 	opacity: 0.9;
 }
 
+.btn.success {
+	background-color: #1a971c;
+	color: #fff;
+}
+
+.btn.info {
+	background-color: #ccc;
+	color: #333;
+}
+
+.btn.danger {
+	background-color: #bb0404;
+	color: #fff;
+}
+
 .quitGameBtn {
 	position: absolute;
 	right: 0;
 	top: 20px;
-	background-color: #bb0404;
+	margin: 0;
 }
 
 /*

@@ -1,4 +1,4 @@
-import { IPoint } from 'battleship-types'
+import type { IPoint } from 'battleship-types'
 import { EAppStep } from '../App/App.component'
 import './Board.styles.css'
 

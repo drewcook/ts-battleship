@@ -1,4 +1,4 @@
-import { IPoint, IShip, ShipOrientation, ShipType } from 'battleship-types'
+import type { IPoint, IShip, ShipOrientation, ShipType } from 'battleship-types'
 import { EPointStatus } from './Point'
 
 export enum EShipType {
@@ -9,10 +9,15 @@ export enum EShipType {
 	Carrier = 'Carrier',
 }
 
+export enum EShipOrientation {
+	Horizontal = 'horizontal',
+	Vertical = 'vertical',
+}
+
 class Ship implements IShip {
 	public type: ShipType
 	public name: string
-	public orientation: ShipOrientation = 'horizontal'
+	public orientation: ShipOrientation = EShipOrientation.Horizontal
 	public spacesOccupied: IPoint[] = []
 	public size: number
 

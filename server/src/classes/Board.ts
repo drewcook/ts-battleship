@@ -1,5 +1,6 @@
-import { IBoard, IPoint, IShip, Location } from 'battleship-types'
+import type { IBoard, IPoint, IShip, Location } from 'battleship-types'
 import Point, { EPointStatus } from './Point'
+import { EShipOrientation } from './Ship'
 
 class Board implements IBoard {
 	public ocean: IPoint[][] = []
@@ -20,6 +21,15 @@ class Board implements IBoard {
 		return grid
 	}
 
+	public clearBoard(): void {
+		for (let row = 0; row < this.ocean.length; row++) {
+			const rowPoints: IPoint[] = this.ocean[row]
+			for (let col = 0; col < rowPoints.length; col++) {
+				rowPoints[col].status = EPointStatus.Empty
+			}
+		}
+	}
+
 	public getPoint(location: Location): IPoint {
 		const { x, y } = location
 		return this.ocean[x][y]
@@ -29,13 +39,13 @@ class Board implements IBoard {
 		const { x, y } = startLocation
 
 		// Check for out of bounds and if another ship is in space
-		if (ship.orientation === 'horizontal') {
+		if (ship.orientation === EShipOrientation.Horizontal) {
 			// walk horizontally
 			for (let col = y; col < y + ship.size; col++) {
 				const point = this.ocean[x][col]
 				if (!point) throw new Error('Uh oh, ship cannot be placed out of bounds.')
 				if (point.status === EPointStatus.Ship)
-					throw new Error('Uh oh, cannot place a ship on top of another ship.')
+					throw new Error(`Uh oh, cannot place the ${ship.name} on top of another ship.`)
 			}
 		} else {
 			// walk vertically
@@ -43,7 +53,7 @@ class Board implements IBoard {
 				const point = this.ocean[row][y]
 				if (!point) throw new Error('Uh oh, ship cannot be placed out of bounds.')
 				if (point.status === EPointStatus.Ship)
-					throw new Error('Uh oh, cannot place a ship on top of another ship.')
+					throw new Error(`Uh oh, cannot place the ${ship.name} on top of another ship.`)
 			}
 		}
 

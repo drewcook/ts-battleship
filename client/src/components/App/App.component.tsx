@@ -1,4 +1,6 @@
-import { IPoint } from 'battleship-types'
+import { faCheck, faRedo } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import type { IPoint } from 'battleship-types'
 import { useState } from 'react'
 import { get, post } from '../../api'
 import Board, { Location } from '../Board/Board.component'
@@ -23,7 +25,7 @@ export enum EAppStep {
 const App = () => {
 	const [ctaText, setCtaText] = useState("Let's start playing!")
 	const [shipsPlaced, setShipsPlaced] = useState(false)
-	const [boardData, setBoardData] = useState<IPoint[][] | null>(null)
+	const [playerBoardData, setPlayerBoardData] = useState<IPoint[][] | null>(null)
 	const [oppBoardData, setOppBoardData] = useState<IPoint[][] | null>(null)
 	const [activeShipBeingPlaced, setActiveShipBeingPlaced] = useState<ShipData | null>(null)
 	const [shipsToPlace, setShipsToPlace] = useState<ShipData[]>(initialShipsToPlace)
@@ -50,7 +52,7 @@ const App = () => {
 		await post('/game/quit')
 
 		// reset UI
-		setBoardData(null)
+		setPlayerBoardData(null)
 		setShipsPlaced(false)
 		setActiveShipBeingPlaced(null)
 		setPlacementError(null)
@@ -67,7 +69,7 @@ const App = () => {
 	const displayBoards = async (): Promise<void> => {
 		try {
 			const res = await get('/boards')
-			setBoardData(res.playerBoard)
+			setPlayerBoardData(res.playerBoard)
 			setOppBoardData(res.opponentBoard)
 		} catch (ex) {
 			console.error('Exception occurred', ex)
@@ -101,9 +103,9 @@ const App = () => {
 		try {
 			await post('/player/place', { auto: true })
 			const res = await get('/boards')
-			setBoardData(res.playerBoard)
+			setPlayerBoardData(res.playerBoard)
 			setShipsPlaced(true)
-			setCtaText("Great! Now it's time to search for your opponents ships.")
+			setCtaText("Ships have been auto-placed. Are you happy with your board?")
 		} catch (ex: any) {
 			console.error('Exception occurred handleAutoplace()', ex)
 		}
@@ -117,7 +119,7 @@ const App = () => {
 
 			// Update board
 			const res = await get('/boards')
-			setBoardData(res.playerBoard)
+			setPlayerBoardData(res.playerBoard)
 
 			// Update ships to place
 			const shipsLeftToPlace = shipsToPlace.filter(s => s.name !== activeShipBeingPlaced.name)
@@ -140,6 +142,7 @@ const App = () => {
 			await post('/opponent/place')
 			setStep(EAppStep.Guessing)
 			displayBoards()
+			setCtaText("Great! Now it's time to search for your opponents ships.")
 		} catch (ex: any) {
 			console.error('Exception occurred', ex)
 		}
@@ -184,7 +187,7 @@ const App = () => {
 				<div className="container">
 					<h1>The Game of Battleship!</h1>
 					{step !== EAppStep.Intro && (
-						<button className="btn quitGameBtn" onClick={quitGame}>
+						<button className="btn quitGameBtn danger" onClick={quitGame}>
 							Quit Game
 						</button>
 					)}
@@ -194,7 +197,7 @@ const App = () => {
 				<div className="container">
 					<h3>{ctaText}</h3>
 					{step === EAppStep.Intro && (
-						<button className="btn" onClick={playGame}>
+						<button className="btn success" onClick={playGame}>
 							Start Game
 						</button>
 					)}
@@ -202,9 +205,14 @@ const App = () => {
 						<>
 							{placementError && <p className="error-msg">{placementError}</p>}
 							{shipsPlaced ? (
-								<button className="btn" onClick={startGuessing}>
-									Let's Go!
-								</button>
+								<>
+									<button className="btn success" onClick={startGuessing}>
+										Yes <FontAwesomeIcon icon={faCheck} />
+									</button>
+									<button className="btn info" onClick={handleAutoplace}>
+										No <FontAwesomeIcon icon={faRedo} />
+									</button>
+								</>
 							) : (
 								<>
 									<button className="btn" onClick={handleAutoplace}>
@@ -220,7 +228,7 @@ const App = () => {
 							)}
 							<Board
 								size="large"
-								ocean={boardData}
+								ocean={playerBoardData}
 								step={step}
 								onPlaceShip={handlePlaceShipOnBoard}
 								onGuess={handleGuess}
@@ -230,23 +238,21 @@ const App = () => {
 					{step === EAppStep.Guessing && (
 						<div className="grid">
 							<div className="col col-3">
-								<h5>Your Board</h5>
-								{computerThinking ? (
-									<p>Computer thinking...</p>
-								) : (
-									<Board
-										size="small"
-										ocean={boardData}
-										step={step}
-										onPlaceShip={handlePlaceShipOnBoard}
-										onGuess={handleGuess}
-									/>
-								)}
-								{/* <p>Ships Sunk: 0</p> */}
+								<h5>Your Fleet</h5>
+								<h6>Ships Sunk: 0</h6>
+								<Board
+									size="small"
+									ocean={playerBoardData}
+									step={step}
+									onPlaceShip={handlePlaceShipOnBoard}
+									onGuess={handleGuess}
+								/>
+								{computerThinking && <p>Computer thinking...</p>}
 							</div>
 							<div className="col col-9">
 								{guessError && <p className="error-msg">{guessError}</p>}
-								<h5>Last Result: {guessResult || 'N/A'}</h5>
+								<h5>Opponent's Ocean</h5>
+								<h6>Last Result: {guessResult || 'N/A'}</h6>
 								<Board
 									size="guessing"
 									ocean={oppBoardData}
@@ -265,7 +271,7 @@ const App = () => {
 									<h4>Opponent's Board</h4>
 									<Board
 										size="end"
-										ocean={boardData}
+										ocean={playerBoardData}
 										step={step}
 										onPlaceShip={handlePlaceShipOnBoard}
 										onGuess={handleGuess}

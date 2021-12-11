@@ -1,6 +1,6 @@
-import { IBoard, IPlayer, IPoint, IShip, ITurn, Location, PointStatus } from 'battleship-types'
+import type { IBaseShip, IBoard, IPlayer, IPoint, IShip, ITurn, Location, PointStatus } from 'battleship-types'
 import { EPointStatus } from './Point'
-import Ship, { EShipType } from './Ship'
+import Ship, { EShipOrientation, EShipType } from './Ship'
 
 class Player implements IPlayer {
 	public name: string
@@ -28,7 +28,7 @@ class Player implements IPlayer {
 		return true
 	}
 
-	public placeShip(ship: IShip, location: Location): void {
+	public placeShip(ship: IBaseShip, location: Location): void {
 		try {
 			// Check if location is occupied
 			const square: IPoint = this.board.getPoint(location)
@@ -37,11 +37,11 @@ class Player implements IPlayer {
 				throw new Error('Uh oh, this square is in a bad state. Please refresh.')
 
 			if (square.status === EPointStatus.Ship)
-				throw new Error('Uh oh, cannot place a ship on top of another ship.')
+				throw new Error(`Uh oh, cannot place your ${ship.name} on top of another ship.`)
 
 			// Check if ship is in player's fleet
 			const playerShip = this.fleet.find(s => s.type === ship.name)
-			if (!playerShip) throw new Error("Uh oh, ship not found in player's fleet.")
+			if (!playerShip) throw new Error(`Uh oh, ${ship.name} not found in player's fleet.`)
 
 			// Update orientation for player's ship
 			playerShip.orientation = ship.orientation
@@ -51,7 +51,7 @@ class Player implements IPlayer {
 
 			if (canFit) {
 				const { x, y } = location
-				if (playerShip.orientation === 'horizontal') {
+				if (playerShip.orientation === EShipOrientation.Horizontal) {
 					// walk horizontally
 					for (let col = y; col < y + playerShip.size; col++) {
 						const point = this.board.ocean[x][col]
@@ -147,6 +147,10 @@ class Player implements IPlayer {
 
 		// Check if location has been guessed already (for AI)
 		// If so, generate a new random location
+		// TODO: AI - https://www.datagenetics.com/blog/december32011/ - A better strategy
+		// "Hunt" vs "Target" mode, use a stack/queue to check up,left,right,down from square if is hit
+		// Add all 4 to stack for upcoming guesses if guess is hit (DFS)
+		// Don't add squares already guessed or edges
 		let guess = location
 		let key = `${guess.x}${guess.y}`
 		while (this.guessedSpaces.has(key)) {
