@@ -65,7 +65,7 @@ export interface IPlayer {
 	fleet: IShip[]
 	allShipsDestroyed: boolean
 	guessedSpaces: Map<string, PointStatus>
-	placeShip(ship: IShip, location: Location): void
+	placeShip(ship: IBaseShip, location: Location): void
 	receiveGuess(location: Location): PointStatus
 	makeGuess(location: Location, opponent: IPlayer): ITurn
 }
@@ -79,10 +79,13 @@ export type ShipType = 'Destroyer' | 'Submarine' | 'Cruiser' | 'Battleship' | 'C
 
 export type ShipOrientation = 'horizontal' | 'vertical'
 
-export interface IShip {
+export interface IBaseShip {
+	name: string,
+	orientation: ShipOrientation,
+}
+
+export interface IShip extends IBaseShip {
 	type: ShipType
-	name: string
-	orientation: ShipOrientation
 	spacesOccupied: IPoint[]
 	size: number
 	isSunk(): boolean
