@@ -115,6 +115,11 @@
 	opacity: 0.9;
 }
 
+.btn.primary {
+	background-color: #585ae8;
+	color: #fff;
+}
+
 .btn.success {
 	background-color: #1a971c;
 	color: #fff;
@@ -185,5 +190,11 @@
 /* Other */
 
 .text-center {
+	display: block;
 	text-align: center;
+}
+
+.text-left {
+	display: block;
+	text-align: left;
 }

@@ -3,16 +3,17 @@
 	font-style: italic;
 }
 
-table {
+.high-scores table {
 	table-layout: fixed;
 	border-collapse: collapse;
 	width: 100%;
 	border: 1px solid #ccc;
 	margin-bottom: 30px;
 	text-align: center;
+	background-color: #fff;
 }
 
-table thead {
+.high-scores table thead {
 	position: sticky;
 	top: 0;
 	background: #555;
@@ -21,18 +22,45 @@ table thead {
 }
 
 /* Cells */
-.turns-table table th,
-.turns-table table td {
+.high-scores table th,
+.high-scores table td {
 	border: 1px solid #ccc;
 	padding: 5px;
 	text-align: center;
 }
 
-.turns-table table td {
+.high-scores table td {
 	font-size: 14px;
 }
 
 /* Striping */
-.turns-table table tbody tr:nth-of-type(odd) {
+.high-scores table tbody tr:nth-of-type(odd) {
 	background: #efefef;
+}
+
+/*
+	Add New form
+*/
+.add-new-high-score form {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.add-new-high-score label {
+	font-size: 14px;
+	color: #777;
+	margin-bottom: 5px;
+}
+.add-new-high-score input {
+	width: 90%;
+	padding: 10px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-bottom: 4px;
+	display: block;
+}
+
+.add-new-high-score button {
+	/* display: block; */
 }

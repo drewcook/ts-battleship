@@ -24,11 +24,11 @@ const HighScoreNew = (props: HighScoreNewProps) => {
 	}
 
 	return (
-		<div>
+		<div className="add-new-high-score">
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="#name">Nickname</label>
 				<input type="text" id="name" placeholder='Please enter your nickname' onChange={handleChange} value={name} />
-				<button type="submit">Add new</button>
+				<button type="submit" className="btn success">Add Your High Score</button>
 			</form>
 		</div>
 	)

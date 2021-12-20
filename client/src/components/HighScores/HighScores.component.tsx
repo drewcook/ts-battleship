@@ -4,9 +4,9 @@ import { get } from '../../api'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { IHighScore } from './highscores.data'
-import { tableStyles } from './HighScores.styles'
 import './HighScores.styles.css'
-console.log(tableStyles)
+// import { tableStyles } from './HighScores.styles'
+// x<table css={tableStyles}></table>
 
 interface HighScoresProps {
 	onBack: () => void;
@@ -38,7 +38,7 @@ const HighScores = (props: HighScoresProps) => {
 					<h1>High Scores</h1>
 					<h3>Check out the high scores below!</h3>
 					{loading ? <div className="loading">Loading...</div> : (
-						<table css={tableStyles}>
+						<table>
 							<thead>
 								<tr>
 									<th>Rank</th>

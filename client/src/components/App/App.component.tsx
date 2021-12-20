@@ -81,7 +81,7 @@ const App = () => {
 		}
 	}
 
-	const viewHighScores = async (): Promise<void> => {
+	const viewHighScores = (): void => {
 		try {
 			setCtaText('High Scores')
 			setStep(EAppStep.HighScores)
@@ -354,10 +354,11 @@ const App = () => {
 									<div className="status-box">
 										<h3>{ctaText}</h3>
 										<p>{winner} has won the game!</p>
-										<button className="btn success" onClick={quitGame}>
-											Play Again
-										</button>
+										<p>You made a total {gameTurns.filter(turn => turn.playerName === 'Player').length} guesses.</p>
 										<HighScoreNew moves={gameTurns.filter(turn => turn.playerName === 'Player').length} onSubmit={onEnterHighScore} />
+										<button className="btn primary text-left" onClick={quitGame}>
+											Play Again?
+										</button>
 									</div>
 									<TurnsTable turns={gameTurns} />
 								</div>
