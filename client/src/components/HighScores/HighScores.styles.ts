@@ -1,12 +1,14 @@
-import { css } from '@emotion/react/macro'
+import { css } from '@emotion/react'
 
 export const tableStyles = css`
 	table {
+		background: #fff;
 		table-layout: fixed;
 		border-collapse: collapse;
 		width: 100%;
 		border: 1px solid #ccc;
 		margin-bottom: 30px;
+		text-align: center;
 	}
 
 	table thead {
@@ -30,7 +32,7 @@ export const tableStyles = css`
 	}
 
 	/* Striping */
-	tbody tr:nth-child(odd) {
+	tbody tr:nth-of-type(odd) {
 		background: #efefef;
 	}
 `

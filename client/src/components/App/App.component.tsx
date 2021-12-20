@@ -4,10 +4,14 @@ import { IPoint, ITurn } from 'battleship-types'
 import { useState } from 'react'
 import { get, post } from '../../api'
 import Board, { Location } from '../Board/Board.component'
+import HighScoreNew from '../HighScores/HighScoreNew.component'
 import HighScores from '../HighScores/HighScores.component'
-import ShipsToPlace, { ShipData } from '../Ship/ShipsToPlace'
+import ShipsToPlace, { ShipData } from '../Ship/ShipsToPlace.component'
+import IntroPage from '../Steps/Intro.component'
 import TurnsTable from '../TurnsTable/TurnsTable.component'
 import './App.styles.css'
+// import styles from './App.styles'
+// <App css={styles}>
 
 const initialShipsToPlace: ShipData[] = [
 	{ size: 2, name: 'Destroyer', orientation: 'horizontal' },
@@ -79,11 +83,6 @@ const App = () => {
 
 	const viewHighScores = async (): Promise<void> => {
 		try {
-			// TODO: Fetch High scores...
-			// const res = await get('/game/highscores')
-			// const setHighScores(res.highScores)
-
-			// set step
 			setCtaText('High Scores')
 			setStep(EAppStep.HighScores)
 		} catch (ex: any) {
@@ -224,29 +223,13 @@ const App = () => {
 		}
 	}
 
-	const enterHighScore = () => {
-		const guesses = gameTurns.filter(turn => turn.playerName === 'Player').length
-		console.log('enter high score...', guesses)
-		// TODO: write form or automatically add it to HS database
+	const onEnterHighScore = () => {
+		quitGame()
+		viewHighScores()
 	}
 
 	if (step === EAppStep.Intro) {
-		return (
-			<div className="app main-menu">
-				<div className="container">
-					<div className="welcome-box">
-						<h1>The Game of Battleship!</h1>
-						<h3>{ctaText}</h3>
-						<button className="btn" onClick={playGame}>
-							Start New Game
-						</button>
-						<button className="btn" onClick={viewHighScores}>
-							High Scores
-						</button>
-					</div>
-				</div>
-			</div>
-		)
+		return <IntroPage ctaText={ctaText} playGame={playGame} viewHighScores={viewHighScores} />
 	}
 
 	if (step === EAppStep.HighScores) return <HighScores onBack={navigateToIntro} />
@@ -374,9 +357,7 @@ const App = () => {
 										<button className="btn success" onClick={quitGame}>
 											Play Again
 										</button>
-										<button className="btn info" onClick={enterHighScore}>
-											Enter High Score
-										</button>
+										<HighScoreNew moves={gameTurns.filter(turn => turn.playerName === 'Player').length} onSubmit={onEnterHighScore} />
 									</div>
 									<TurnsTable turns={gameTurns} />
 								</div>

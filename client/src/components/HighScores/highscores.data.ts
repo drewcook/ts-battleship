@@ -1,11 +1,13 @@
+import { post } from '../../api'
+
 const generateRandomDate = (): Date =>
 	new Date(+new Date() - Math.floor(Math.random() * 10000000000))
 
 export interface IHighScore {
-	id: number;
+	_id: number;
 	name: string;
 	moves: number;
-	dateCreated: Date;
+	created_at: Date;
 }
 
 const mockData = [
@@ -70,5 +72,15 @@ const mockData = [
 		dateCreated: generateRandomDate(),
 	},
 ]
+
+export const postMockData = async () => {
+	for (let highscore of mockData) {
+		await post('/highscores/new', {
+			name: highscore.name,
+			moves: highscore.moves,
+			created_at: highscore.dateCreated,
+		})
+	}
+}
 
 export default mockData

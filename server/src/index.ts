@@ -5,10 +5,31 @@ import Logger from 'koa-logger'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import router from './routes'
+import mongoose from 'mongoose'
+
+// Load .env
+require('dotenv').config()
 
 const app = new Koa()
 const PORT = process.env.PORT || 3000
 const isProduction: boolean = process.env['NODE_ENV'] === 'production'
+
+// Setup Mongo Database
+const setupDb = () => {
+	const host = isProduction
+		? process.env.MONGODB_PROD_CONNECTION
+		: process.env.MONGODB_DEV_CONNECTION
+	const db = `${host}/battleship`
+	mongoose
+		.connect(db, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useFindAndModify: false,
+			useCreateIndex: true,
+		})
+		.then(() => console.info(`Connected to MongoDB at ${db}...`))
+}
+setupDb()
 
 // Middleware
 app.use(BodyParser())

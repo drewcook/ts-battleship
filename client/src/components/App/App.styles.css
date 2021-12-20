@@ -50,7 +50,7 @@
 /*
 	Main Menu
 */
-.app.main-menu {
+.app.main-menu, .app.high-scores {
 	background: url('../../images/welcome_bg.jpg');
 	background-size: cover;
 	background-position: center center;
@@ -62,20 +62,27 @@
 	min-height: 100vh;
 }
 
-.app.main-menu .container {
+.app.main-menu .container, .app.high-scores .container {
 	max-width: 95%;
 }
 
-.app.main-menu .welcome-box {
+.app.main-menu .welcome-box, .app.high-scores .wrapper-box {
 	border: 2px solid #ccc;
 	border-radius: 8px;
 	background: rgba(255,255,255,0.6);
 	padding: 30px;
 	margin: 100px auto 0 0;
+}
+
+.app.main-menu .welcome-box {
 	max-width: 400px;
 }
 
-.app.main-menu button {
+.app.high-scores .wrapper-box {
+	max-width: 600px;
+}
+
+.app.main-menu button, .app.high-scores button {
 	display: block;
 	width: 180px;
 	background: #fff;
@@ -83,7 +90,7 @@
 	color: #333;
 }
 
-.app.main-menu button:hover {
+.app.main-menu button:hover, .app.high-scores button:hover {
 	background: #333;
 	color: #fff;
 }

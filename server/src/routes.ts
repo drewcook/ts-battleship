@@ -2,6 +2,7 @@ import type { IGame, ITurn, Location } from 'battleship-types'
 import HttpStatus from 'http-status'
 import Router from 'koa-router'
 import Game from './classes/Game'
+import HighScore from './classes/HighScore'
 import { getRandomPlacement } from './utils/autoplaceShips'
 
 const router = new Router()
@@ -158,6 +159,42 @@ router.post('/opponent/guess', async (ctx, next) => {
 		}
 		ctx.status = HttpStatus.OK
 		await next()
+	} catch (ex: any) {
+		ctx.body = { error: ex.message ?? ex }
+		ctx.status = HttpStatus.INTERNAL_SERVER_ERROR
+	}
+})
+
+
+router.get('/highscores', async (ctx, next) => {
+	try {
+		const highScores = await HighScore.find().sort({ moves: 'asc' })
+		ctx.body = { highScores }
+		ctx.status = HttpStatus.OK
+		await next()
+	} catch (ex: any) {
+		ctx.body = { error: ex.message ?? ex }
+		ctx.status = HttpStatus.INTERNAL_SERVER_ERROR
+	}
+})
+
+router.post('/highscores/new', async (ctx, next) => {
+	try {
+		const { name, moves } = ctx.request.body
+		const payload = {
+			name,
+			moves,
+			created_at: new Date(),
+		}
+
+		// TODO: Joi validate?
+		// const results = validateHighScore(payload)
+		// if (results.error) res.status(400).send(results.error.details)
+
+		// create new record and save
+		const newHighScore = new HighScore(payload)
+		await newHighScore.save()
+		ctx.status = HttpStatus.OK
 	} catch (ex: any) {
 		ctx.body = { error: ex.message ?? ex }
 		ctx.status = HttpStatus.INTERNAL_SERVER_ERROR

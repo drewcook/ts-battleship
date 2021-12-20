@@ -1,6 +1,10 @@
+/** @jsxImportSource @emotion/react */
+import { jsx } from '@emotion/react'
 import { faRedo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Ship.styles.css'
+// import styles from './Ship.styles'
+// css={styles}
 
 export type ShipData = {
 	name: string

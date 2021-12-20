@@ -1,0 +1,188 @@
+import { css } from '@emotion/react'
+
+const styles = css`
+	/* Error Message */
+	.error-msg {
+		color: #d70303;
+		font-size: 0.9rem;
+		font-weight: bold;
+		font-style: italic;
+	}
+
+	/* App */
+	.app {
+		/* text-align: center; */
+	}
+
+	.container {
+		width: 90%;
+		max-width: 1200px;
+		height: auto;
+		margin: 0 auto;
+		position: relative;
+	}
+
+	.app-header {
+		background-color: #282c34;
+		min-height: 100px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: calc(10px + 2vmin);
+		color: white;
+	}
+
+	.app-header h1 {
+		font-size: 28px;
+		margin: 20px 0;
+	}
+
+	.app-content {
+		min-height: calc(100vh - 200px);
+		padding: 50px 0;
+	}
+
+	.status-box {
+		border: 3px solid #ccc;
+		border-radius: 8px;
+		padding: 15px;
+		margin-bottom: 30px;
+		text-align: center;
+	}
+
+	/*
+	Main Menu
+*/
+	.app.main-menu {
+		background: url('../../images/welcome_bg.jpg');
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		min-height: 100vh;
+	}
+
+	.app.main-menu .container {
+		max-width: 95%;
+	}
+
+	.app.main-menu .welcome-box {
+		border: 2px solid #ccc;
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.6);
+		padding: 30px;
+		margin: 100px auto 0 0;
+		max-width: 400px;
+	}
+
+	.app.main-menu button {
+		display: block;
+		width: 180px;
+		background: #fff;
+		border: 2px solid #333;
+		color: #333;
+	}
+
+	.app.main-menu button:hover {
+		background: #333;
+		color: #fff;
+	}
+
+	/*
+	Buttons
+*/
+
+	.btn {
+		border: none;
+		border-radius: 3px;
+		padding: 10px 15px;
+		text-transform: uppercase;
+		font-weight: bold;
+		cursor: pointer;
+		background-color: #333;
+		color: #efefef;
+		margin: 5px;
+	}
+
+	.btn:hover {
+		opacity: 0.9;
+	}
+
+	.btn.success {
+		background-color: #1a971c;
+		color: #fff;
+	}
+
+	.btn.info {
+		background-color: #ccc;
+		color: #333;
+	}
+
+	.btn.danger {
+		background-color: #bb0404;
+		color: #fff;
+	}
+
+	.quitGameBtn {
+		position: absolute;
+		right: 0;
+		top: 20px;
+		margin: 0;
+	}
+
+	/*
+	Grid System
+*/
+
+	.grid {
+		display: flex;
+		flex: 0 1 auto;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: top;
+		margin-left: -15px;
+		margin-right: -15px;
+	}
+	/* Full width */
+	.grid .col {
+		flex-basis: 100%;
+		max-width: 100%;
+	}
+	/* 1/4 */
+	.grid .col.col-3 {
+		flex-basis: 25%;
+		max-width: 25%;
+	}
+	/* 1/3 */
+	.grid .col.col-4 {
+		flex-basis: 33.33333333%;
+		max-width: 33.33333333%;
+	}
+	/* 1/2 */
+	.grid .col.col-6 {
+		flex-basis: 50%;
+		max-width: 50%;
+	}
+	/* 2/3 */
+	.grid .col.col-8 {
+		flex-basis: 66.66666666%;
+		max-width: 66.66666666%;
+	}
+	/* 3/4 */
+	.grid .col.col-9 {
+		flex-basis: 75%;
+		max-width: 75%;
+	}
+
+	/* Other */
+
+	.text-center {
+		text-align: center;
+	}
+`
+
+export default styles

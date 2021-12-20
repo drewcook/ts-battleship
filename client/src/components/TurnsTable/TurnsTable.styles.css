@@ -48,31 +48,31 @@
 }
 
 /* ID Cell */
-.turns-table table th:nth-child(1),
-.turns-table table td:nth-child(1) {
+.turns-table table th:nth-of-type(1),
+.turns-table table td:nth-of-type(1) {
 	width: 10%;
 }
 
 /* Player Cell */
-.turns-table table th:nth-child(2),
-.turns-table table td:nth-child(2) {
+.turns-table table th:nth-of-type(2),
+.turns-table table td:nth-of-type(2) {
 	width: 40%;
 }
 
 /* Guess Cell */
-.turns-table table th:nth-child(3),
-.turns-table table td:nth-child(3) {
+.turns-table table th:nth-of-type(3),
+.turns-table table td:nth-of-type(3) {
 	width: 25%;
 }
 
 /* Result Cell */
-.turns-table table th:nth-child(4),
-.turns-table table td:nth-child(4) {
+.turns-table table th:nth-of-type(4),
+.turns-table table td:nth-of-type(4) {
 	width: 25%;
 }
 
 /* Striping */
-.turns-table table tbody tr:nth-child(odd) {
+.turns-table table tbody tr:nth-of-type(odd) {
 	background: #efefef;
 }
 

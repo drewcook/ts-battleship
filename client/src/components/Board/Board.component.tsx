@@ -1,6 +1,9 @@
+/** @jsxImportSource @emotion/react */
+import { jsx } from '@emotion/react'
 import type { IPoint } from 'battleship-types'
 import { EAppStep } from '../App/App.component'
 import './Board.styles.css'
+// import styles from './Board.styles'
 
 export enum EPointStatus {
 	Hit = 'Hit',
@@ -41,6 +44,7 @@ const Board = (props: BoardProps) => {
 
 	return (
 		ocean && (
+			// <div className={`${whoIs}-board`} css={styles}>
 			<div className={`${whoIs}-board`}>
 				<table className={`board board-${size}`}>
 					<thead>

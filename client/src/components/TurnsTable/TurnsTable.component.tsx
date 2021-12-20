@@ -1,5 +1,7 @@
 import { ITurn } from 'battleship-types'
 import './TurnsTable.styles.css'
+// import styles from './TurnsTable.styles'
+// css={styles}
 
 interface TurnsTableProps {
 	turns: ITurn[];
