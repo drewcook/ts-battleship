@@ -4,6 +4,7 @@ import { IPoint, ITurn } from 'battleship-types'
 import { useState } from 'react'
 import { get, post } from '../../api'
 import Board, { Location } from '../Board/Board.component'
+import HighScores from '../HighScores/HighScores.component'
 import ShipsToPlace, { ShipData } from '../Ship/ShipsToPlace'
 import TurnsTable from '../TurnsTable/TurnsTable.component'
 import './App.styles.css'
@@ -49,6 +50,11 @@ const App = () => {
 		}
 	}
 
+	const navigateToIntro = (): void => {
+		setCtaText("Main Menu")
+		setStep(EAppStep.Intro)
+	}
+
 	const quitGame = async (): Promise<void> => {
 		try {
 			// reset backend
@@ -65,8 +71,7 @@ const App = () => {
 			setShipsToPlace(initialShipsToPlace)
 
 			// set step
-			setCtaText("Main Menu")
-			setStep(EAppStep.Intro)
+			navigateToIntro()
 		} catch (ex: any) {
 			console.error('Exception occurred quitGame()', ex)
 		}
@@ -244,31 +249,7 @@ const App = () => {
 		)
 	}
 
-	if (step === EAppStep.HighScores) {
-		return (
-			<div className="app high-scores">
-				<h1>High Scores</h1>
-				<button className="btn info" onClick={quitGame}>
-					Back to Menu
-				</button>
-				<h3>{ctaText}</h3>
-				<table>
-					<thead>
-						<tr>
-							<th>Player</th>
-							<th>Score</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Player/opponent</td>
-							<td>100 moves</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		)
-	}
+	if (step === EAppStep.HighScores) return <HighScores onBack={navigateToIntro} />
 
 	return (
 		<div className="app">
@@ -334,7 +315,7 @@ const App = () => {
 					{step === EAppStep.Guessing && (
 						<div className="grid">
 							<div className="col col-8">
-								<h5>Your Fleet</h5>
+								<h5 className="text-center">Your Fleet</h5>
 								<Board
 									whoIs="player"
 									size="small"
@@ -343,7 +324,7 @@ const App = () => {
 									onPlaceShip={handlePlaceShipOnBoard}
 									onGuess={handleGuess}
 								/>
-								<h5>Opponent's Ocean</h5>
+								<h5 className="text-center">Opponent's Ocean</h5>
 								<Board
 									whoIs="opponent"
 									size="guessing"

@@ -14,7 +14,7 @@
 /* Table */
 .turns-table .table-wrapper {
 	overflow-y: auto;
-	height: 620px;
+	height: 490px;
 	border: 1px solid #ccc;
 	border-radius: 8px;
 }

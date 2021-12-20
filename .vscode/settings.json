@@ -1,0 +1,14 @@
+{
+	"editor.codeActionsOnSave": {
+    "source.fixAll": true, // use only one - all rules
+    // "source.fixAll.eslint": true, // eslint specific rules
+    // "source.fixAll.stylelint": true, // stylelint specific rules
+    // "source.fixAll.tslint": true, // TypeScript support
+    "source.organizeImports": false, // saves for typescript files
+    "autoFix": true
+  },
+	"editor.formatOnSave": false,
+  "editor.formatOnSaveMode": "file",
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+}

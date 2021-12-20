@@ -89,13 +89,6 @@
 }
 
 /*
-	High Scores
-*/
-.app.high-scores {
-	background: blue;
-}
-
-/*
 	Buttons
 */
 
@@ -180,4 +173,10 @@
 .grid .col.col-9 {
 	flex-basis: 75%;
 	max-width: 75%;
+}
+
+/* Other */
+
+.text-center {
+	text-align: center;
 }

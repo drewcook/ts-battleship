@@ -6,5 +6,8 @@ dist/
 .cache/*
 .parcel-cache/
 
+# Environment Variables
+.env
+
 ## OS Files
 .DS_store
