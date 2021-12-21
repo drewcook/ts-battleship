@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const production = 'https://battleship.dco.dev'
+const production = 'https://battleship.drewcook.dev'
 const development = 'http://localhost:3000'
 const baseUrl: string = process.env.NODE_ENV === 'production' ? production : development
 export const get = async (route: string) => {
