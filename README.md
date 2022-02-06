@@ -66,3 +66,7 @@ This will compile the TypeScript into JavaScript into a `dist/` directory, and i
 - Player vs Computer
 - Player vs Player
 - Computer vs Computer - AI game siumlation
+
+<p align="center">
+ <img src="https://visitor-badge.glitch.me/badge?page_id=drewcook.ts-battleship" alt="visitor count"/>
+</p>
