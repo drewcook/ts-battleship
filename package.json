@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "This is the classic game of battleship.  It is a full-stack web application writtin in TypeScript. It follows object-oriented design patterns and principals. It was inspired by [this design](https://www.cs.nmsu.edu/~rth/cs/cs187/f97/battleshipdesign.html) and [SOLID Principles](https://en.wikipedia.org/wiki/SOLID).",
   "scripts": {
-		"start": "npm start --prefix server",
-    "heroku-prebuild": "npm install --prefix server --production=false && npm install --prefix client --production=false",
-    "heroku-postbuild": "npm run build --prefix client"
+		"install": "npm install --prefix server && npm install --prefix client",
+		"build-server": "npm start --prefix server",
+    "build-client": "npm run build --prefix client",
+		"build": "npm run build-server && npm run build-client"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,7 @@
   },
   "homepage": "https://github.com/drewcook/ts-battleship#readme",
 	"engines": {
-		"node": "14.18.1",
-    "npm": "6.14.15"
+		"node": ">=16",
+    "npm": ">=6"
 	}
 }
