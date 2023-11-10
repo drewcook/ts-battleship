@@ -1,9 +1,9 @@
 import type { IGame, ITurn, Location } from 'battleship-types'
 import HttpStatus from 'http-status'
 import Router from 'koa-router'
-import Game from './classes/Game'
-import HighScore from './classes/HighScore'
-import { getRandomPlacement } from './utils/autoplaceShips'
+import Game from '../classes/Game'
+import HighScore from '../classes/HighScore'
+import { getRandomPlacement } from '../utils/autoplaceShips'
 
 const router = new Router()
 

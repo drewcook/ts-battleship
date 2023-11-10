@@ -2,14 +2,14 @@
   "name": "ts-battleship-server",
   "version": "1.0.0",
   "description": "The backend for ts-battleship",
-  "main": "dist/index.js",
+  "main": "dist/api/index.js",
   "scripts": {
     "start": "npm run start:build && npm run start:run",
     "start:build": "tsc -b",
-    "start:run": "NODE_ENV=production node ./dist/index.js",
+    "start:run": "NODE_ENV=production node ./dist/api/index.js",
     "dev": "concurrently npm:dev:*",
     "dev:build": "tsc -w",
-    "dev:run": "nodemon ./dist/index.js",
+    "dev:run": "nodemon ./dist/api/index.js",
     "lint": "npx prettier --config ./prettier.config.js ./src* --check",
     "lint:fix": "npx prettier --config ./prettier.config.js ./src* --write",
     "test": "echo \"Error: no test specified\" && exit 1"

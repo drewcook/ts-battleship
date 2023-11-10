@@ -49,9 +49,4 @@ if (isProduction) {
 // Setup routes
 app.use(router.routes()).use(router.allowedMethods())
 
-// Open and listen on port
-const server = app.listen(PORT, () => {
-	console.log(`==> 🌎  Listening on port ${PORT}...`)
-})
-
-export default server
+export default app
