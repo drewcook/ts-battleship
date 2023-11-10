@@ -7,5 +7,12 @@
       "use": "@vercel/node"
     }
   ],
-	"outputDirectory": "dist"
+	"outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destintation": "dist/index.js",
+			"permanent": true
+    }
+  ]
 }
