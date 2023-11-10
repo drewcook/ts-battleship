@@ -11,7 +11,7 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "destintation": "dist/index.js",
+      "destination": "dist/index.js",
 			"permanent": true
     }
   ]
