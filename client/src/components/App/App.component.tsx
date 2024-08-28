@@ -30,7 +30,7 @@ export enum EAppStep {
 }
 
 const App = () => {
-	const [ctaText, setCtaText] = useState("Main Menu")
+	const [ctaText, setCtaText] = useState('Main Menu')
 	const [shipsPlaced, setShipsPlaced] = useState(false)
 	const [playerBoardData, setPlayerBoardData] = useState<IPoint[][] | null>(null)
 	const [oppBoardData, setOppBoardData] = useState<IPoint[][] | null>(null)
@@ -55,7 +55,7 @@ const App = () => {
 	}
 
 	const navigateToIntro = (): void => {
-		setCtaText("Main Menu")
+		setCtaText('Main Menu')
 		setStep(EAppStep.Intro)
 	}
 
@@ -129,13 +129,15 @@ const App = () => {
 			const res = await get('/boards')
 			setPlayerBoardData(res.playerBoard)
 			setShipsPlaced(true)
-			setCtaText("Ships have been automatically placed on the board. Are you happy with your fleet?")
+			setCtaText(
+				'Ships have been automatically placed on the board. Are you happy with your fleet?',
+			)
 		} catch (ex: any) {
 			console.error('Exception occurred handleAutoplace()', ex)
 		}
 	}
 
-	const handleManualPlaceReset = async(): Promise<void> => {
+	const handleManualPlaceReset = async (): Promise<void> => {
 		try {
 			// reset backend
 			await post('/game/quit')
@@ -273,7 +275,10 @@ const App = () => {
 										</>
 									) : (
 										<>
-											<p>Select your ship below to place. Click on the board to place it. Use the arrows button to rotate the orientation. Or you may autoplace them.</p>
+											<p>
+												Select your ship below to place. Click on the board to place it. Use the
+												arrows button to rotate the orientation. Or you may autoplace them.
+											</p>
 											<button className="btn" onClick={handleAutoplace}>
 												Autoplace
 											</button>
@@ -284,13 +289,13 @@ const App = () => {
 									<button className="btn" onClick={handleManualPlaceReset}>
 										Manually Place Instead
 									</button>
-									) : (
-										<ShipsToPlace
-											ships={shipsToPlace}
-											activeShipToPlace={activeShipBeingPlaced}
-											onShipClick={handleShipClick}
-											onSwapOrientation={handleSwapShipOrientation}
-										/>
+								) : (
+									<ShipsToPlace
+										ships={shipsToPlace}
+										activeShipToPlace={activeShipBeingPlaced}
+										onShipClick={handleShipClick}
+										onSwapOrientation={handleSwapShipOrientation}
+									/>
 								)}
 							</div>
 						</div>
@@ -318,7 +323,7 @@ const App = () => {
 								/>
 							</div>
 							<div className="col col-4">
-								<div className='status-box'>
+								<div className="status-box">
 									<h3>{ctaText}</h3>
 									{computerThinking ? <p>Computer thinking...</p> : <p>Your turn!</p>}
 									{guessError ? <p className="error-msg">{guessError}</p> : <p />}
@@ -354,8 +359,14 @@ const App = () => {
 									<div className="status-box">
 										<h3>{ctaText}</h3>
 										<p>{winner} has won the game!</p>
-										<p>You made a total {gameTurns.filter(turn => turn.playerName === 'Player').length} guesses.</p>
-										<HighScoreNew moves={gameTurns.filter(turn => turn.playerName === 'Player').length} onSubmit={onEnterHighScore} />
+										<p>
+											You made a total{' '}
+											{gameTurns.filter(turn => turn.playerName === 'Player').length} guesses.
+										</p>
+										<HighScoreNew
+											moves={gameTurns.filter(turn => turn.playerName === 'Player').length}
+											onSubmit={onEnterHighScore}
+										/>
 										<button className="btn primary text-left" onClick={quitGame}>
 											Play Again?
 										</button>

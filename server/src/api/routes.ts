@@ -1,14 +1,14 @@
-import type { IGame, ITurn, Location } from 'battleship-types'
+import type { IBaseShip, IGame, ITurn, Location } from 'battleship-types'
 import HttpStatus from 'http-status'
 import Router from 'koa-router'
 import Game from '../classes/Game'
 import HighScore from '../classes/HighScore'
 import { getRandomPlacement } from '../utils/autoplaceShips'
+import { Request } from 'koa'
 
 const router = new Router()
 
 let game: IGame | null
-
 
 // TODO: have moves return IBoard so it can easily be updated from UI
 router.post('/game/start', async (ctx, next) => {
@@ -57,12 +57,16 @@ router.get('/boards', async (ctx, next) => {
 router.post('/player/place', async (ctx, next) => {
 	try {
 		if (!game) return
-		const { ship, location, auto } = ctx.request.body
+		const { ship, location, auto } = ctx.request.body as {
+			ship: IBaseShip
+			location: Location
+			auto: boolean
+		}
 
 		// Autoplace if applicable
 		if (auto) {
 			game?.player.board.clearBoard()
-			getRandomPlacement().forEach(({ship, startingLocation}) => {
+			getRandomPlacement().forEach(({ ship, startingLocation }) => {
 				game?.player.placeShip(ship, startingLocation)
 			})
 		} else {
@@ -83,7 +87,10 @@ router.post('/player/guess', async (ctx, next) => {
 		if (!game) return
 
 		// Have player guess on opponent's board
-		const playerTurn: ITurn = await game.player.makeGuess(ctx.request.body, game.opponent)
+		const playerTurn: ITurn = await game.player.makeGuess(
+			ctx.request.body as Location,
+			game.opponent,
+		)
 
 		// Add turn to the game
 		const gameTurns: ITurn[] = game.addTurn(playerTurn)
@@ -115,7 +122,7 @@ router.post('/opponent/place', async (ctx, next) => {
 		if (!game) return
 
 		// Create opponent's board from auto-placement
-		getRandomPlacement().forEach(({ship, startingLocation}) => {
+		getRandomPlacement().forEach(({ ship, startingLocation }) => {
 			game?.opponent.placeShip(ship, startingLocation)
 		})
 
@@ -165,7 +172,6 @@ router.post('/opponent/guess', async (ctx, next) => {
 	}
 })
 
-
 router.get('/highscores', async (ctx, next) => {
 	try {
 		const highScores = await HighScore.find().sort({ moves: 'asc' })
@@ -180,7 +186,7 @@ router.get('/highscores', async (ctx, next) => {
 
 router.post('/highscores/new', async (ctx, next) => {
 	try {
-		const { name, moves } = ctx.request.body
+		const { name, moves } = ctx.request.body as { name: string; moves: number }
 		const payload = {
 			name,
 			moves,

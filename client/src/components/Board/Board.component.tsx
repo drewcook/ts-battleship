@@ -21,7 +21,7 @@ export type Location = {
 type BoardSize = 'small' | 'large' | 'guessing' | 'end'
 
 interface BoardProps {
-	whoIs: 'player' | 'opponent',
+	whoIs: 'player' | 'opponent'
 	size: BoardSize
 	ocean: IPoint[][] | null
 	step: EAppStep

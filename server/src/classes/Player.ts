@@ -1,4 +1,13 @@
-import type { IBaseShip, IBoard, IPlayer, IPoint, IShip, ITurn, Location, PointStatus } from 'battleship-types'
+import type {
+	IBaseShip,
+	IBoard,
+	IPlayer,
+	IPoint,
+	IShip,
+	ITurn,
+	Location,
+	PointStatus,
+} from 'battleship-types'
 import { EPointStatus } from './Point'
 import Ship, { EShipOrientation, EShipType } from './Ship'
 

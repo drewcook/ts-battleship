@@ -39,7 +39,7 @@
 
 /* Player Board */
 .player-board table {
-	background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('../../images/ocean.jpg');
+	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../images/ocean.jpg');
 	background-size: contain;
 	background-position: center center;
 }
@@ -54,11 +54,11 @@
 	border: 0.5px solid #aaa;
 }
 
-.player-board .board__square[data-status="Empty"] {
+.player-board .board__square[data-status='Empty'] {
 	opacity: 0.4;
 }
 
-.player-board .board-large .board__square[data-status="Empty"]:hover {
+.player-board .board-large .board__square[data-status='Empty']:hover {
 	cursor: pointer;
 	background: #fff;
 	opacity: 0.6;
@@ -131,6 +131,6 @@
 	cursor: unset;
 }
 
-.opponent-board .board-end .board__square[data-status="Empty"]:hover {
+.opponent-board .board-end .board__square[data-status='Empty']:hover {
 	opacity: 0;
 }

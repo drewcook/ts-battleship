@@ -34,26 +34,26 @@
 }
 
 /* Destroyer Blocks */
-.ships-group .ship[data-shipblocks="Destroyer"] .ship-blocks {
+.ships-group .ship[data-shipblocks='Destroyer'] .ship-blocks {
 	height: 50px;
 	width: 50px;
 }
 
 /* Submarine & Cruiser Blocks */
-.ships-group .ship[data-shipblocks="Submarine"] .ship-blocks,
-.ships-group .ship[data-shipblocks="Cruiser"] .ship-blocks {
+.ships-group .ship[data-shipblocks='Submarine'] .ship-blocks,
+.ships-group .ship[data-shipblocks='Cruiser'] .ship-blocks {
 	height: 70px;
 	width: 70px;
 }
 
 /* Battleship Blocks */
-.ships-group .ship[data-shipblocks="Battleship"] .ship-blocks {
+.ships-group .ship[data-shipblocks='Battleship'] .ship-blocks {
 	height: 90px;
 	width: 90px;
 }
 
 /* Carrier Blocks */
-.ships-group .ship[data-shipblocks="Carrier"] .ship-blocks {
+.ships-group .ship[data-shipblocks='Carrier'] .ship-blocks {
 	height: 120px;
 	width: 120px;
 }

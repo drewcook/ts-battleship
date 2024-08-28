@@ -4,7 +4,7 @@ import './TurnsTable.styles.css'
 // css={styles}
 
 interface TurnsTableProps {
-	turns: ITurn[];
+	turns: ITurn[]
 }
 
 const TurnsTable = (props: TurnsTableProps) => {

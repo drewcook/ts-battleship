@@ -2,8 +2,8 @@ import type { IBaseShip, Location } from 'battleship-types'
 import { EShipOrientation, EShipType } from '../classes/Ship'
 
 type AutoplacedShip = {
-	ship: IBaseShip,
-	startingLocation: Location,
+	ship: IBaseShip
+	startingLocation: Location
 }
 
 export const fleet1: AutoplacedShip[] = [

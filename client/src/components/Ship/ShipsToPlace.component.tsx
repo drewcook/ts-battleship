@@ -25,13 +25,15 @@ const ShipsToPlace = (props: ShipsToPlaceProps) => {
 	return (
 		<div className="ships-group">
 			{ships.map(s => (
-				<div key={s.name} className={s === activeShipToPlace ? 'ship active-placing' : 'ship'} data-shipblocks={s.name}>
+				<div
+					key={s.name}
+					className={s === activeShipToPlace ? 'ship active-placing' : 'ship'}
+					data-shipblocks={s.name}
+				>
 					<p className="ship-header">
 						{s.name}
 						<button onClick={() => onSwapOrientation(s)}>
-							<FontAwesomeIcon
-								icon={faRedo}
-							/>
+							<FontAwesomeIcon icon={faRedo} />
 						</button>
 					</p>
 					<div className={`ship-blocks ${s.orientation}`} onClick={() => onShipClick(s)}>

@@ -9,7 +9,7 @@ import './HighScores.styles.css'
 // x<table css={tableStyles}></table>
 
 interface HighScoresProps {
-	onBack: () => void;
+	onBack: () => void
 }
 
 const HighScores = (props: HighScoresProps) => {
@@ -37,7 +37,9 @@ const HighScores = (props: HighScoresProps) => {
 				<div className="wrapper-box">
 					<h1>High Scores</h1>
 					<h3>Check out the high scores below!</h3>
-					{loading ? <div className="loading">Loading...</div> : (
+					{loading ? (
+						<div className="loading">Loading...</div>
+					) : (
 						<table>
 							<thead>
 								<tr>

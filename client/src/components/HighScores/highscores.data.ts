@@ -4,10 +4,10 @@ const generateRandomDate = (): Date =>
 	new Date(+new Date() - Math.floor(Math.random() * 10000000000))
 
 export interface IHighScore {
-	_id: number;
-	name: string;
-	moves: number;
-	created_at: Date;
+	_id: number
+	name: string
+	moves: number
+	created_at: Date
 }
 
 const mockData = [
