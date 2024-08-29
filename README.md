@@ -1,6 +1,6 @@
 # Battleship
 
-Play the [Demo App](https://battleship.dco.dev).
+Play the [Demo App](https://ts-battleship.herokuapp.com/).
 
 This is the classic game of battleship.  It is a full-stack web application writtin in TypeScript. It follows object-oriented design patterns and principals. It was inspired by [this design](https://www.cs.nmsu.edu/~rth/cs/cs187/f97/battleshipdesign.html) and [SOLID Principles](https://en.wikipedia.org/wiki/SOLID).  The AI behavior is inspired by [this article](https://www.datagenetics.com/blog/december32011/) which contains some techniques for random placements and guessing.
 
