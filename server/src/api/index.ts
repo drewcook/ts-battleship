@@ -27,7 +27,7 @@ const setupDb = () => {
 			useFindAndModify: false,
 			useCreateIndex: true,
 		})
-		.then(() => console.info(`Connected to MongoDB at ${db}...`))
+		.then(() => console.info(`Connected to MongoDB...`))
 }
 setupDb()
 
@@ -44,6 +44,7 @@ if (isProduction) {
 	const static_pages = new Koa()
 	static_pages.use(serve(__dirname + '/../../client/build'))
 	app.use(mount('/', static_pages))
+	console.info('Client app served at /')
 }
 
 // Setup routes

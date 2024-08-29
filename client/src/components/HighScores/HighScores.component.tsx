@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { jsx } from '@emotion/react'
 import { get } from '../../api'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
@@ -23,7 +22,7 @@ const HighScores = (props: HighScoresProps) => {
 			setHighScores(res.highScores)
 			setLoading(false)
 		} catch (ex: any) {
-			console.error('Exception occurred displayBoards()', ex)
+			console.error('Exception occurred fetchHighScores()', ex)
 		}
 	}
 
